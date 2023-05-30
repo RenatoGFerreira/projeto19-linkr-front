@@ -18,8 +18,6 @@ export default function SigninPage() {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    username: "",
-    image: "",
   });
 
   function handleForm(e) {
