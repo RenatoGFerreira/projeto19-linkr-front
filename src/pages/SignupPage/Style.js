@@ -130,7 +130,7 @@ cursor: pointer;
     }
 `
 export const StyledLink = styled(Link)`
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
     margin-top: 10px;
     font-size: 14px;
     line-height: 17px;

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -26,22 +26,24 @@ export default function SignupPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSignUp(event){
-    event.preventDefault()
-    setIsLoading(true)
+  function handleSignUp(event) {
+    event.preventDefault();
+    setIsLoading(true);
 
-    apiAuth.signup(form)
-        .then(res => {
-          setIsLoading(false)
-          navigate("/")
-          
-        })
-        .catch(err => {
-          alert(err.response.data.message)
-          setIsLoading(false)
-        })
+    apiAuth
+      .signup(form)
+      .then((res) => {
+        console.log(res.data)
+        setIsLoading(false);
+        navigate("/");
+      })
+      .catch((err) => {
+        alert("Não foi possivel");
+        setIsLoading(false);
+      });
   }
 
+  //err.response.data.message
   return (
     <ScreenContainer>
       <LogoContainer>
@@ -80,7 +82,7 @@ export default function SignupPage() {
             onChange={handleForm}
           />
           <StyledInput
-            name="pictureUrl"
+            name="image"
             placeholder="picture url"
             type="url"
             required
