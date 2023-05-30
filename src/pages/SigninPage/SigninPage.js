@@ -12,7 +12,7 @@ import { ThreeDots } from "react-loader-spinner";
 import apiAuth from "../../services/apiAuth.js";
 import { useNavigate } from "react-router-dom";
 
-export default function SignupPage() {
+export default function SigninPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
   const [form, setForm] = useState({
@@ -26,11 +26,11 @@ export default function SignupPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSignUp(event){
+  function handleSignIn(event){
     event.preventDefault()
     setIsLoading(true)
 
-    apiAuth.signup(form)
+    apiAuth.signin(form)
         .then(res => {
           setIsLoading(false)
           navigate("/")
@@ -51,7 +51,7 @@ export default function SignupPage() {
         </TextContainer>
       </LogoContainer>
       <FormContainer>
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={handleSignIn}>
           <StyledInput
             name="email"
             placeholder="e-mail"
@@ -70,32 +70,14 @@ export default function SignupPage() {
             value={form.password}
             onChange={handleForm}
           />
-          <StyledInput
-            name="username"
-            placeholder="username"
-            type="text"
-            required
-            disabled={isLoading}
-            value={form.username}
-            onChange={handleForm}
-          />
-          <StyledInput
-            name="pictureUrl"
-            placeholder="picture url"
-            type="url"
-            required
-            disabled={isLoading}
-            value={form.image}
-            onChange={handleForm}
-          />
           <StyledButton>
             {isLoading ? (
               <ThreeDots width={50} height={50} color="#fff" />
             ) : (
-              "Sign Up"
+              "Log in"
             )}
           </StyledButton>
-          <StyledLink to="/">Switch back to log in</StyledLink>
+          <StyledLink to="/signup">First time? Create an account!</StyledLink>
         </form>
       </FormContainer>
     </ScreenContainer>
