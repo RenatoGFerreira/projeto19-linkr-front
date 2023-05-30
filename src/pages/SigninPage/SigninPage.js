@@ -31,7 +31,7 @@ export default function SigninPage() {
     apiAuth.signin(form)
         .then(res => {
           setIsLoading(false)
-          navigate("/")
+          navigate("/timeline")
           
         })
         .catch(err => {
