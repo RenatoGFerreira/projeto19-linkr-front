@@ -1,4 +1,5 @@
 import {ScreenContainer, LogoContainer, FormContainer, StyledInput, StyledButton, TextContainer} from "./Style.js"
+
 export default function SignupPage(){
     return(
         <ScreenContainer>
@@ -33,8 +34,7 @@ export default function SignupPage(){
                 />
                 <StyledButton>
                     Sign Up
-                </StyledButton>
-                
+                </StyledButton>  
             </form>
             </FormContainer>
         </ScreenContainer>
