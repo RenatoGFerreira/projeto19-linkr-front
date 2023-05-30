@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 export const ScreenContainer = styled.div`
     height: 100vh;
@@ -6,7 +7,6 @@ export const ScreenContainer = styled.div`
     background-color: #333;
     position: relative;
 `
-
 export const LogoContainer = styled.div`
     height: 100vh;
     width: 70vw;
@@ -70,7 +70,6 @@ export const TextContainer = styled.div`
 
 
 `
-
 export const FormContainer = styled.div`
     height: 100vh;
     width: 30vw;
@@ -94,7 +93,6 @@ export const FormContainer = styled.div`
         bottom: 0;
     }
 `
-
 export const StyledInput = styled.input`
   width: 80%;
   height: 35px;
@@ -114,7 +112,6 @@ export const StyledInput = styled.input`
         max-width: 400px;
     }
 `
-
 export const StyledButton = styled.button`
 width: 85%;
 height: 45px;
@@ -131,4 +128,12 @@ cursor: pointer;
   @media (max-width: 768px) {
         max-width: 420px;
     }
+`
+export const StyledLink = styled(Link)`
+    font-family: 'Lato';
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 17px;
+    text-decoration: underline;
+    color: #fff;
 `
