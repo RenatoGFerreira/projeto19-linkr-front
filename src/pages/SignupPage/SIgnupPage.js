@@ -38,12 +38,11 @@ export default function SignupPage() {
         navigate("/");
       })
       .catch((err) => {
-        alert("Não foi possivel");
+        alert(err.response.data.message);
         setIsLoading(false);
       });
   }
 
-  //err.response.data.message
   return (
     <ScreenContainer>
       <LogoContainer>

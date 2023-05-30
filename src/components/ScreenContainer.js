@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import { ScreenContainer } from "./Style"
 
-export default function ScreenContainer({children}){
+export default function screenContainer({children}){
     return(
         <ScreenContainer>
             {children}
@@ -8,9 +8,3 @@ export default function ScreenContainer({children}){
     )
 }
 
-const ScreenContainer = styled.div`
-    height: 100vh;
-    width: 100vw;
-    background-color: #333;
-    position: relative;
-`
