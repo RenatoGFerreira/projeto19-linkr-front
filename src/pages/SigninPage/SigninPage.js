@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   ScreenContainer,
   LogoContainer,
@@ -11,9 +11,11 @@ import {
 import { ThreeDots } from "react-loader-spinner";
 import apiAuth from "../../services/apiAuth.js";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext.js";
 
 export default function SigninPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate()
   const [form, setForm] = useState({
     email: "",
@@ -30,9 +32,11 @@ export default function SigninPage() {
 
     apiAuth.signin(form)
         .then(res => {
-          setIsLoading(false)
-          navigate("/timeline")
-          
+        setIsLoading(false)
+        const {id, name, image, token} = res.data
+        setAuth({id, name, image, token})
+        navigate("/timeline")
+
         })
         .catch(err => {
           alert(err.response.data.message)
