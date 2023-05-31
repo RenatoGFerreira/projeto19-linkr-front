@@ -2,16 +2,21 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignupPage from "./pages/SignupPage/SIgnupPage";
 import SigninPage from "./pages/SigninPage/SigninPage";
 import TimeLinePage from "./pages/TimeLinePage/TImeLine";
+import { useState } from "react";
+import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
+  const [auth, setAuth] = useState({});
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SigninPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/timeline" element={<TimeLinePage />} />
-      </Routes>
+      <AuthContext.Provider value={{auth, setAuth}}>
+        <Routes>
+          <Route path="/" element={<SigninPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/timeline" element={<TimeLinePage />} />
+        </Routes>
+      </AuthContext.Provider>
     </BrowserRouter>
   );
 }
