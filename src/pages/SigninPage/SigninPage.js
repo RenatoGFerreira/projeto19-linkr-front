@@ -34,7 +34,6 @@ export default function SigninPage() {
         .then(res => {
         setIsLoading(false)
         const {id, username, image, token} = res.data
-        console.log(res.data)
         setAuth({id, username, image, token})
         navigate("/timeline")
 

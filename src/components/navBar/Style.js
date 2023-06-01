@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { AiOutlineDown } from "react-icons/ai";
+import { AiOutlineUp } from "react-icons/ai";
+
 
 export const Container = styled.div`
   position: fixed;
@@ -33,6 +35,7 @@ export const Style = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
   img {
     width: 53px;
     height: 53px;
@@ -41,9 +44,38 @@ export const Style = styled.div`
   }
 `;
 
-export const Icon = styled(AiOutlineDown)`
+export const IconDown = styled(AiOutlineDown)`
   font-size: 20px;
   color: #fff;
   align-items: center;
   cursor: pointer;
 `;
+
+export const IconUp = styled(AiOutlineUp)`
+  font-size: 20px;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const ModalContainer = styled.div`
+  background-color: #171717;
+  border-radius: 0 0 20px 20px;
+  width: 150px;
+  height: 47px;
+  position: absolute;
+  bottom: -47px;
+  right: 10px; 
+  text-align: center;
+  display: ${(props) => props.modal === true ? "block" : "none" };
+  cursor: pointer;
+  h1{
+    color: #FFF;
+    font-family: 'Lato', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 40px;
+    letter-spacing: 0.05em;
+  }
+`
