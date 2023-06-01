@@ -33,8 +33,9 @@ export default function SigninPage() {
     apiAuth.signin(form)
         .then(res => {
         setIsLoading(false)
-        const {id, name, image, token} = res.data
-        setAuth({id, name, image, token})
+        const {id, username, image, token} = res.data
+        console.log(res.data)
+        setAuth({id, username, image, token})
         navigate("/timeline")
 
         })
