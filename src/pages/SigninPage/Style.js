@@ -113,6 +113,9 @@ export const StyledInput = styled.input`
     }
 `
 export const StyledButton = styled.button`
+display: flex;
+justify-content: center;
+align-items: center;
 width: 85%;
 height: 45px;
 border: none;
