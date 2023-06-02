@@ -1,10 +1,11 @@
 import NavBar from "../../components/navBar/NavBar";
 import ScreenContainer from "../../components/ScreenContainer";
-import { Container, TimeContainer, Trending, Hashtag, ContainerHashtag, Separator, ConteudoHashtagTrending} from "./Style";
+import { Container, TimeContainer} from "./Style";
 import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/Publications";
+import TrendingTimeLine from "../../components/TimeLineComponent/TrendingTimeLine/Trending";
 
 
-export default function TimeLinePage() {
+export default function HashtagPage() {
     return (
         <ScreenContainer>
             <NavBar />
@@ -12,30 +13,12 @@ export default function TimeLinePage() {
                 <h2> # hashtag</h2>
                 <TimeContainer>
                     <Publication></Publication>
-                    <Trending>
-                        <h2>trending</h2>
-                        <Separator></Separator>
-                        <ContainerHashtag>
-                                <HashtagTrendings text = {"Naruto"}  >  </HashtagTrendings>
-                                <HashtagTrendings text = {"Naruto"}  >  </HashtagTrendings>
-                                <HashtagTrendings text = {"Naruto"}  >  </HashtagTrendings>
-                        </ContainerHashtag>
-                    </Trending>
+                    <TrendingTimeLine/>
                 </TimeContainer>
             </Container>
         </ScreenContainer>
     );
 }
-
-function HashtagTrendings (props) {
-    const { text } = props;
-    return (
-        <ConteudoHashtagTrending>
-            <Hashtag>  # {text}</Hashtag>
-        </ConteudoHashtagTrending>
-    )
-}
-
 
 
 //Rascunho Lógica
