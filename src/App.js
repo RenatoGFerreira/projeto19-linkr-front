@@ -5,19 +5,20 @@ import TimeLinePage from "./pages/TimeLinePage/TImeLine";
 import HashtagPage from "./pages/HashtagPage/HashtagPage"
 import { useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
+import UserPage from "./pages/UserPage/UserPage";
 
 function App() {
   const [auth, setAuth] = useState({});
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{auth, setAuth}}>
+      <AuthContext.Provider value={{ auth, setAuth }}>
         <Routes>
           <Route path="/" element={<SigninPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/timeline" element={<TimeLinePage />} />
+          <Route path="/user/:id" element={<UserPage />} />
           <Route path="/hashtag" element={<HashtagPage />} />
-
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

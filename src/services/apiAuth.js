@@ -13,5 +13,5 @@ function signin(body) {
 }
 
 
-const apiAuth = { signup, signin } 
+const apiAuth = { signup, signin }
 export default apiAuth
