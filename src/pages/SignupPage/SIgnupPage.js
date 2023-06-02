@@ -38,7 +38,7 @@ export default function SignupPage() {
         navigate("/");
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        alert(err.response.data);
         setIsLoading(false);
       });
   }
