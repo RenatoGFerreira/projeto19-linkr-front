@@ -12,7 +12,7 @@ export default function UserPage() {
     // const { auth } = useContext(AuthContext);
     const auth = { name: "Jon Doe", token: "token" };
     const navigate = useNavigate();
-    const { userId } = useParams();
+    const { id } = useParams();
     const config = { headers: { Authorization: `Bearer ${auth.token}` } };
     const [userPosts, setUserPosts] = useState([]);
 
@@ -23,11 +23,11 @@ export default function UserPage() {
         } else {
             getUserPosts();
         };
-    });
+    }, []);
 
     async function getUserPosts() {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/:${userId}`, config);
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/${id}`, config);
             setUserPosts(res.data);
 
         } catch (error) {
@@ -42,7 +42,11 @@ export default function UserPage() {
             <Container>
                 <h2>{auth.name}'s posts</h2>
                 <TimeContainer>
-                    {userPosts.map(p => <Publication key={p.id} user={p.username} description={p.description} url={p.url} />)}
+                    {userPosts.map(p => <Publication
+                        key={p.id}
+                        user={p.userId}
+                        description={p.description}
+                        url={p.url} />)}
                     {/* colocar o component trending aqui */}
                 </TimeContainer>
             </Container>
