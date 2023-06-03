@@ -3,16 +3,20 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { Container, IconDown, IconUp, Style, ModalContainer } from "./Style";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2"
+import apiAuth from "../../services/apiAuth";
 
 export default function NavBar() {
-  const {auth} = useContext(AuthContext);
+  const {auth, setAuth} = useContext(AuthContext);
   const [modal, setModal] = useState(false)
   const navigate = useNavigate()
+  const [token, setToken] = useState(auth.token)
+
+  console.log(auth.token)
 
   function showModal(){
     setModal(!modal)
   }
-
+  
   function LogOut(){    
     Swal.fire({
       title: 'Tem certeza que deseja deslogar?',
@@ -24,23 +28,30 @@ export default function NavBar() {
       confirmButtonText: 'Quero deslogar'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Depois cê volta viu!!',
-          ':(',
-          'success',
-          navigate("/")
-        )
+        apiAuth.signOut(token)
+          .then(
+              Swal.fire(
+                'Depois cê volta viu!!',
+                ':(',
+                'success'
+              ),
+              localStorage.removeItem("auth"),
+              setAuth({}),
+              navigate("/")
+          )
+          .catch(err => {
+            alert(err.response.data)
+          })
       }
     })
   }
-
   return (
     <Container>
       <h2>linkr</h2>
       {/* codigo da pesquisa aqui */}
       <Style onClick={showModal}>
         {modal? <IconDown/> : <IconUp/>}
-        <img src={auth.image} />
+        <img src={auth.image} alt="description"/>
         <ModalContainer modal={modal} onClick={LogOut}>
             <h1>Logout</h1>
         </ModalContainer>
