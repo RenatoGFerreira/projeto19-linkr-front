@@ -3,16 +3,14 @@ import SignupPage from "./pages/SignupPage/SIgnupPage";
 import SigninPage from "./pages/SigninPage/SigninPage";
 import TimeLinePage from "./pages/TimeLinePage/TImeLine";
 import HashtagPage from "./pages/HashtagPage/HashtagPage"
-import { useState } from "react";
-import { AuthContext } from "./contexts/AuthContext";
+import AuthProvider from "./contexts/AuthContext";
 import UserPage from "./pages/UserPage/UserPage";
 
 function App() {
-  const [auth, setAuth] = useState({});
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{ auth, setAuth }}>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<SigninPage />} />
           <Route path="/signup" element={<SignupPage />} />
@@ -20,7 +18,7 @@ function App() {
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/hashtag" element={<HashtagPage />} />
         </Routes>
-      </AuthContext.Provider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

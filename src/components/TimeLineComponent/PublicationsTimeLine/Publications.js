@@ -1,11 +1,14 @@
-import { PublicationContainer, Image, Content } from "./Style";
+import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike } from "./Style";
 
 export default function Publication({ user, description, url }) {
   return (
     <PublicationContainer>
       <Image>
-        <img src={user} alt="Post user image" />
         {/* colocar os likes aqui */}
+        <img src="#" alt="description"/>
+        <IconHeart/>
+        <IconHeartfill/>
+        <TextLike>13 likes</TextLike>
       </Image>
       <Content>
         <h3>{user}</h3>
