@@ -3,17 +3,18 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { Container, IconDown, IconUp, Style, ModalContainer } from "./Style";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2"
+import SearchBar from "../searchBar/SearchBar";
 
 export default function NavBar() {
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const [modal, setModal] = useState(false)
   const navigate = useNavigate()
 
-  function showModal(){
+  function showModal() {
     setModal(!modal)
   }
 
-  function LogOut(){    
+  function LogOut() {
     Swal.fire({
       title: 'Tem certeza que deseja deslogar?',
       text: "Fica vai?",
@@ -37,12 +38,12 @@ export default function NavBar() {
   return (
     <Container>
       <h2>linkr</h2>
-      {/* codigo da pesquisa aqui */}
+      <SearchBar />
       <Style onClick={showModal}>
-        {modal? <IconDown/> : <IconUp/>}
-        <img src={auth.image} />
+        {modal ? <IconDown /> : <IconUp />}
+        <img src={auth.image} alt="User" />
         <ModalContainer modal={modal} onClick={LogOut}>
-            <h1>Logout</h1>
+          <h1>Logout</h1>
         </ModalContainer>
       </Style>
     </Container>

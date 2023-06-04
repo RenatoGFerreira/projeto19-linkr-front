@@ -4,14 +4,14 @@ export default function Publication() {
   return (
     <PublicationContainer>
       <Image>
-        <img src="#" />
+        <img src="#" alt="User" />
         {/* colocar os likes aqui */}
       </Image>
       <Content>
         <h3>Name da pessoas</h3>
         <p>descrição</p>
         <div>
-            <p>url</p>
+          <p>url</p>
         </div>
       </Content>
     </PublicationContainer>
