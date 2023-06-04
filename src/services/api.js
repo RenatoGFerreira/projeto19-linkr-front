@@ -6,33 +6,33 @@ function createConfig(token) {
     return { headers: { Authorization: `Bearer ${token}` } };
   }
   
-function getPubli(id, token) {
+function getPost(id, token) {
     const config = createConfig(token);
 
-    const promise = axios.get(`${BASE_URL}/publis`, config);
+    const promise = axios.get(`${BASE_URL}/post`, config);
   
     return promise;
 }
 
-function deletePubli(id, token) {
+function deletePost(id, token) {
     const config = createConfig(token);
   
-    const promise = axios.delete(`${BASE_URL}/publi/${id}`, config);
+    const promise = axios.delete(`${BASE_URL}/post/${id}`, config);
   
     return promise;
 }
-function updatePubli(id, body, token) {
+function updatePost(id, body, token) {
     const config = createConfig(token);
   
-    const promise = axios.delete(`${BASE_URL}/publi/${id}`, body, config);
+    const promise = axios.put(`${BASE_URL}/post/${id}`, body, config);
   
     return promise;
 }
 
 const api = {
-    getPubli,
-    deletePubli,
-    updatePubli
+    getPost,
+    deletePost,
+    updatePost
   }
   
   export default api;

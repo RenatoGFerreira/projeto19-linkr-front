@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ReactModal from "react-modal";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 export const PublicationContainer = styled.div`
   width: 100%;
@@ -122,3 +123,26 @@ export const InputStyle = styled.textarea`
   border-radius: 7px;
   overflow: auto;
 `;
+export const IconHeartfill = styled(AiFillHeart)`
+  font-size: 20px;
+  color: #AC0000;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const IconHeart = styled(AiOutlineHeart)`
+  font-size: 20px;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const TextLike = styled.h3`
+  color: #fff;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+`

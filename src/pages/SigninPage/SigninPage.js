@@ -34,12 +34,12 @@ export default function SigninPage() {
         .then(res => {
         setIsLoading(false)
         const {id, username, image, token} = res.data
-        console.log(res.data)
         setAuth({id, username, image, token})
+        localStorage.setItem("auth", JSON.stringify({id, username, image, token}));
         navigate("/timeline")
         })
         .catch(err => {
-          alert(err.response.data.message)
+          alert(err.response.data)
           setIsLoading(false)
         })
   }
