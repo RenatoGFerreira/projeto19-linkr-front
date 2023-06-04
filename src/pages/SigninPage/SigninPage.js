@@ -35,8 +35,8 @@ export default function SigninPage() {
         setIsLoading(false)
         const {id, username, image, token} = res.data
         setAuth({id, username, image, token})
+        localStorage.setItem("auth", JSON.stringify({id, username, image, token}));
         navigate("/timeline")
-
         })
         .catch(err => {
           alert(err.response.data)

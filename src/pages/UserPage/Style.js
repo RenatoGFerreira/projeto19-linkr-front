@@ -23,5 +23,6 @@ export const TimeContainer = styled.div`
      position: relative;
      margin-left: 25px;
      display: flex;
+     flex-direction: column;
      justify-content: space-between;     
 `;
