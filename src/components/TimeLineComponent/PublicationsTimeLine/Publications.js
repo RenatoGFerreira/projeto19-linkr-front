@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike } from "./Style";
 import urlMetadata from "url-metadata";
 import { useEffect, useState } from "react";
@@ -19,6 +20,12 @@ export default function Publication({ name, image, url, likes, description }) {
       }
     }
 
+export default function Publication({ user, description, url }) {
+  const [liked, setLiked] = useState(false)
+  function changeLike(){
+    setLiked(!liked)
+  }
+  
   return (
     <PublicationContainer>
       <Image>
