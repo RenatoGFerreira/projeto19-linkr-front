@@ -37,7 +37,6 @@ export default function SigninPage() {
         console.log(res.data)
         setAuth({id, username, image, token})
         navigate("/timeline")
-
         })
         .catch(err => {
           alert(err.response.data.message)

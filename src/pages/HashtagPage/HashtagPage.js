@@ -1,7 +1,7 @@
 import NavBar from "../../components/navBar/NavBar";
 import ScreenContainer from "../../components/ScreenContainer";
 import { Container, TimeContainer, Trending, Hashtag, ContainerHashtag, Separator, ConteudoHashtagTrending} from "./Style";
-import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/Publications";
+import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/PublicationsT";
 
 
 export default function TimeLinePage() {

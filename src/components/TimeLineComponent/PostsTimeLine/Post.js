@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
-import Publication from "../PublicationsTimeLine/Publications";
+import Publication from "../PublicationsTimeLine/PublicationsT";
 import { Container, PostContainer, Image, Form} from "./Style";
 
 export default function Post() {
