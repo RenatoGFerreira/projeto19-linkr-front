@@ -1,20 +1,40 @@
 import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike } from "./Style";
+import urlMetadata from "url-metadata";
+import { useEffect, useState } from "react";
 
-export default function Publication() {
+export default function Publication({ name, image, url, likes, description }) {
+    const [linkMetadata, setLinkMetadata] = useState(null);
+  
+    useEffect(() => {
+      fetchLinkMetadata();
+    }, [url]);
+  
+    async function fetchLinkMetadata() {
+      try {
+        const metadata = await urlMetadata(url);
+        console.log(metadata)
+        setLinkMetadata(metadata);
+      } catch (error) {
+        console.error("Ocorreu um erro ao buscar os metadados do link:", error);
+      }
+    }
+
   return (
     <PublicationContainer>
       <Image>
-        <img src="#" alt="description"/>
+        <img src={image} alt="description"/>
         <IconHeart/>
         <IconHeartfill/>
         <TextLike>13 likes</TextLike>
         
       </Image>
       <Content>
-        <h3>Name da pessoas</h3>
-        <p>descrição</p>
+        <h3>{name}</h3>
+        <p>{description}</p>
         <div>
-            <p>url</p>
+          <p>Image: </p>
+          <p>image</p>
+          <p>description</p>
         </div>
       </Content>
     </PublicationContainer>
