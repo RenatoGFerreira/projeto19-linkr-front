@@ -74,14 +74,14 @@ export default function SigninPage() {
             value={form.password}
             onChange={handleForm}
           />
-          <StyledButton data-test="login-btn">
+          <StyledButton data-test="username">
             {isLoading ? (
               <ThreeDots width={50} height={50} color="#fff" />
             ) : (
               "Log in"
             )}
           </StyledButton>
-          <StyledLink data-test="sign-up-link" to="/signup">First time? Create an account!</StyledLink>
+          <StyledLink data-test="sign-up-link" to="/sign-up">First time? Create an account!</StyledLink>
         </form>
       </FormContainer>
     </ScreenContainer>
