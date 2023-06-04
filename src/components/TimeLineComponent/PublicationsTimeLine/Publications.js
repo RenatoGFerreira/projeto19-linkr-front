@@ -3,6 +3,10 @@ import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLik
 
 
 export default function Publication({ user, description, url }) {
+  const [liked, setLiked] = useState(false)
+  function changeLike(){
+    setLiked(!liked)
+  }
   return (
     <PublicationContainer>
       <Image>
