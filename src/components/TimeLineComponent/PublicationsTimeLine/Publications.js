@@ -1,12 +1,18 @@
+import { useState } from "react";
 import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike } from "./Style";
 
 export default function Publication() {
+  const [liked, setLiked] = useState(false)
+
+  function changeLike(){
+    setLiked(!liked)
+  }
+  
   return (
     <PublicationContainer>
       <Image>
         <img src="#" alt="description"/>
-        <IconHeart/>
-        <IconHeartfill/>
+        {liked?( <IconHeartfill onClick={changeLike}/>) : (<IconHeart onClick={changeLike}/>)}
         <TextLike>13 likes</TextLike>
         
       </Image>
