@@ -1,18 +1,12 @@
-import { useState } from "react";
-import {
-  PublicationContainer,
-  Image,
-  Content,
-  IconHeart,
-  IconHeartfill,
-  TextLike,
-  LikeContainer,
-  TextLikeHover
-} from "./Style";
+import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover } from "./Style";
+  import urlMetadata from "url-metadata";
+  import { useEffect, useState } from "react";
 
-export default function Publication({ user, description, url }) {
+
+export default function Publication({ user, name, image, url, likes, description }) {
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(0);
+  const [linkMetadata, setLinkMetadata] = useState(null);
 
   function changeLike() {
     if (liked) {
@@ -23,11 +17,27 @@ export default function Publication({ user, description, url }) {
       setLikesAmount(likesAmount + 1);
     }
   }
+
+  useEffect(() => {
+    fetchLinkMetadata();
+  }, [url]);
+
+  async function fetchLinkMetadata() {
+    try {
+      const metadata = await urlMetadata(url);
+      console.log(metadata)
+      setLinkMetadata(metadata);
+    } catch (error) {
+      console.error("Ocorreu um erro ao buscar os metadados do link:", error);
+    }
+  }
+
+
   return (
     <PublicationContainer>
       <Image>
         {/* colocar os likes aqui */}
-        <img src="#" alt="description" />
+        <img src={image} alt="description"/>
         <LikeContainer>
           {liked ? (
             <IconHeartfill onClick={changeLike} />
@@ -39,9 +49,12 @@ export default function Publication({ user, description, url }) {
         </LikeContainer>
       </Image>
       <Content>
-        <h3>{user}</h3>
+        <h3>{name}</h3>
         <p>{description}</p>
         <div>
+          <p>Image: </p>
+          <h3>{user}</h3>
+          <p>{description}</p>
           <p>{url}</p>
         </div>
       </Content>
