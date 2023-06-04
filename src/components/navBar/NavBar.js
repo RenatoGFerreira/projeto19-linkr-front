@@ -4,16 +4,13 @@ import { Container, IconDown, IconUp, Style, ModalContainer } from "./Style";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2"
 import SearchBar from "../searchBar/SearchBar";
-import apiAuth from "../../services/apiAuth";
 
 export default function NavBar() {
   
   const {auth, setAuth} = useContext(AuthContext);
   const [modal, setModal] = useState(false)
   const navigate = useNavigate()
-  const [token, setToken] = useState(auth.token)
 
-  console.log(auth.token)
 
   function showModal() {
     setModal(!modal)
@@ -27,23 +24,17 @@ export default function NavBar() {
       showCancelButton: true,
       confirmButtonColor: '#1877F2',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Quero deslogar'
+      confirmButtonText: 'Quero deslogar',
     }).then((result) => {
       if (result.isConfirmed) {
-        apiAuth.signOut(token)
-          .then(
               Swal.fire(
                 'Depois cê volta viu!!',
                 ':(',
-                'success'
-              ),
-              localStorage.removeItem("auth"),
-              setAuth({}),
-              navigate("/")
-          )
-          .catch(err => {
-            alert(err.response.data)
-          })
+                'success',
+                localStorage.removeItem("auth"),
+                setAuth({}),
+                navigate("/")
+              )
       }
     })
   }
