@@ -14,7 +14,6 @@ export default function Post() {
   function getPostList(){
     apiPosts.getPosts()
     .then(res => {
-      console.log(res.data)
       setPosts(res.data)
     })
     .catch(err =>{
