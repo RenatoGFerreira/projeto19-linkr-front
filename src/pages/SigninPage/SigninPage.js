@@ -26,22 +26,22 @@ export default function SigninPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSignIn(event){
+  function handleSignIn(event) {
     event.preventDefault()
     setIsLoading(true)
 
     apiAuth.signin(form)
-        .then(res => {
+      .then(res => {
         setIsLoading(false)
-        const {id, username, image, token} = res.data
-        setAuth({id, username, image, token})
-        localStorage.setItem("auth", JSON.stringify({id, username, image, token}));
+        const { id, username, image, token } = res.data
+        setAuth({ id, username, image, token })
+        localStorage.setItem("auth", JSON.stringify({ id, username, image, token }));
         navigate("/timeline")
-        })
-        .catch(err => {
-          alert(err.response.data)
-          setIsLoading(false)
-        })
+      })
+      .catch(err => {
+        alert(err.response.data)
+        setIsLoading(false)
+      })
   }
 
   return (
@@ -55,6 +55,7 @@ export default function SigninPage() {
       <FormContainer>
         <form onSubmit={handleSignIn}>
           <StyledInput
+            data-test="email"
             name="email"
             placeholder="e-mail"
             type="email"
@@ -64,6 +65,7 @@ export default function SigninPage() {
             onChange={handleForm}
           />
           <StyledInput
+            data-test="password"
             name="password"
             placeholder="senha"
             type="password"
@@ -72,14 +74,14 @@ export default function SigninPage() {
             value={form.password}
             onChange={handleForm}
           />
-          <StyledButton>
+          <StyledButton data-test="login-btn">
             {isLoading ? (
               <ThreeDots width={50} height={50} color="#fff" />
             ) : (
               "Log in"
             )}
           </StyledButton>
-          <StyledLink to="/signup">First time? Create an account!</StyledLink>
+          <StyledLink data-test="sign-up-link" to="/signup">First time? Create an account!</StyledLink>
         </form>
       </FormContainer>
     </ScreenContainer>

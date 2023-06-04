@@ -54,6 +54,7 @@ export default function SignupPage() {
       <FormContainer>
         <form onSubmit={handleSignUp}>
           <StyledInput
+            data-test="email"
             name="email"
             placeholder="e-mail"
             type="email"
@@ -63,6 +64,7 @@ export default function SignupPage() {
             onChange={handleForm}
           />
           <StyledInput
+            data-test="password"
             name="password"
             placeholder="senha"
             type="password"
@@ -72,6 +74,7 @@ export default function SignupPage() {
             onChange={handleForm}
           />
           <StyledInput
+            data-test="username"
             name="username"
             placeholder="username"
             type="text"
@@ -81,6 +84,7 @@ export default function SignupPage() {
             onChange={handleForm}
           />
           <StyledInput
+            data-test="picture-url"
             name="image"
             placeholder="picture url"
             type="url"
@@ -89,14 +93,14 @@ export default function SignupPage() {
             value={form.image}
             onChange={handleForm}
           />
-          <StyledButton>
+          <StyledButton data-test="sign-up-btn">
             {isLoading ? (
               <ThreeDots width={50} height={50} color="#fff" />
             ) : (
               "Sign Up"
             )}
           </StyledButton>
-          <StyledLink to="/">Switch back to log in</StyledLink>
+          <StyledLink data-test="login-link" to="/">Switch back to log in</StyledLink>
         </form>
       </FormContainer>
     </ScreenContainer>
