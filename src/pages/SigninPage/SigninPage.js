@@ -73,6 +73,7 @@ export default function SigninPage() {
             disabled={isLoading}
             value={form.password}
             onChange={handleForm}
+            
           />
           <StyledButton data-test="username">
             {isLoading ? (
