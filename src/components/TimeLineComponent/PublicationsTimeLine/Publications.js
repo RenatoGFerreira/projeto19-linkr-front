@@ -26,15 +26,15 @@ export default function Publication({ name, image, url, likes, description }) {
         <IconHeart/>
         <IconHeartfill/>
         <TextLike>13 likes</TextLike>
-        
       </Image>
       <Content>
         <h3>{name}</h3>
         <p>{description}</p>
         <div>
           <p>Image: </p>
-          <p>image</p>
-          <p>description</p>
+          <h3>{user}</h3>
+          <p>{description}</p>
+          <p>{url}</p>
         </div>
       </Content>
     </PublicationContainer>
