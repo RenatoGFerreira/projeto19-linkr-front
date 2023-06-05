@@ -2,9 +2,12 @@ import NavBar from "../../components/navBar/NavBar";
 import ScreenContainer from "../../components/ScreenContainer";
 import { Container, TimeContainer, Trending, Hashtag, ContainerHashtag, Separator, ConteudoHashtagTrending} from "./Style";
 import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/Publications";
-
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
 export default function TimeLinePage() {
+  const { auth } = useContext(AuthContext);
+
     return (
         <ScreenContainer>
             <NavBar />
