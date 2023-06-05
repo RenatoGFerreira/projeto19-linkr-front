@@ -10,10 +10,8 @@ import api from "../../../services/api";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
-
-
-export default function Publication({ id, user, name, image, url, likes, description }) {
-  const { auth } = useContext(AuthContext);
+export default function Publication({ user, name, image, url, likes, description }) {
+  const { Auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
   const [linkMetadata, setLinkMetadata] = useState(null);
