@@ -14,10 +14,10 @@ export default function Post() {
   function getPostList(){
     apiPosts.getPosts()
     .then(res => {
-      console.log(res.data)
       setPosts(res.data)
     })
     .catch(err =>{
+      console.log(err.response.data)
       alert(err.response.data.message)
     })
   }

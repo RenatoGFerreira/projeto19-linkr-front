@@ -14,18 +14,15 @@ function getPost(id, token) {
     return promise;
 }
 
-function deletePost(id, token) {
+function deletePost(token, body) {
     const config = createConfig(token);
-  
-    const promise = axios.delete(`${BASE_URL}/post/${id}`, config);
-  
+    const promise = axios.delete(`${BASE_URL}/post`, config);
     return promise;
 }
-function updatePost(id, body, token) {
+
+function updatePost(body, token) {
     const config = createConfig(token);
-  
-    const promise = axios.put(`${BASE_URL}/post/${id}`, body, config);
-  
+    const promise = axios.put(`${BASE_URL}/post`, body, config);
     return promise;
 }
 

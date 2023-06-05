@@ -13,7 +13,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<SigninPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/sign-up" element={<SignupPage />} />
           <Route path="/timeline" element={<TimeLinePage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/hashtag" element={<HashtagPage />} />

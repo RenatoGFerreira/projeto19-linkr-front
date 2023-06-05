@@ -52,6 +52,39 @@ export const Content = styled.div`
   }
 `;
 
+export const LikeContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: relative;
+:hover{
+  h4{
+    display: block;
+  }
+}
+h4{
+  display: none;
+}
+`;
+
+export const TextLikeHover = styled.h4`
+  background-color: rgba(255, 255, 255, .9);
+  color: #000;
+  font-family: 'Lato', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 13px;
+  margin-top: 5px;
+  padding: 2px 3px;
+  position: absolute;
+  bottom: -30px;
+  width: 169px;
+  text-align: center;
+`;
+
+
 export const TrashButton = styled.button`
   position: absolute;
   right:35px;
@@ -145,4 +178,5 @@ export const TextLike = styled.h3`
   font-size: 11px;
   line-height: 13px;
   text-align: center;
-`
+  margin: 5px;
+`;

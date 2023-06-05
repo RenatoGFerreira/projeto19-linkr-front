@@ -1,5 +1,7 @@
 import axios from "axios"
 
+const REACT_APP_API_URL = "http://localhost:5000"
+
 function createConfig(token) {
     return {
         headers: {
@@ -9,12 +11,14 @@ function createConfig(token) {
 }
 
 function getPosts(){
-    const promise = axios.get(`${process.env.REACT_APP_API_URL}/post`)
+    console.log("GetPosts")
+    const promise = axios.get(`${REACT_APP_API_URL}/post`)
+    console.log(promise)
     return promise
 }
 
 function createPost(token, body){
-    const promise = axios.post(`${process.env.REACT_APP_API_URL}/post`, body, createConfig(token))
+    const promise = axios.post(`${REACT_APP_API_URL}/post`, body, createConfig(token))
     return promise
 }
 
