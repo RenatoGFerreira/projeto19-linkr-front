@@ -11,8 +11,6 @@ export default function AuthProvider({children}){
     useEffect(() => {
         if(lsAuth === null){
         navigate("/")
-        }else{
-        navigate("/timeline")
         }
     }, [])
 
