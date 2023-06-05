@@ -38,6 +38,7 @@ export default function SignupPage() {
         navigate("/");
       })
       .catch((err) => {
+        console.log(err.response)
         alert(err.response.data);
         setIsLoading(false);
       });
