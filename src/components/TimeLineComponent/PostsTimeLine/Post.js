@@ -74,7 +74,7 @@ export default function Post() {
       {
         posts.map(p => (
           <Publication
-            key={p.id}
+            id={p.id}
             name={p.name}
             image={p.image}
             url={p.url}

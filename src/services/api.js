@@ -14,9 +14,9 @@ function getPost(id, token) {
     return promise;
 }
 
-function deletePost(token, body) {
+function deletePost(body, token) {
     const config = createConfig(token);
-    const promise = axios.delete(`${BASE_URL}/post`, config);
+    const promise = axios.delete(`${BASE_URL}/post`, body, config);
     return promise;
 }
 

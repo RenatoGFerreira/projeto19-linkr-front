@@ -12,7 +12,7 @@ import api from "../../../services/api";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 
-export default function Publication({ key, user, name, image, url, likes, description }) {
+export default function Publication({ id, name, image, url, likes, description }) {
   const { Auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
@@ -22,8 +22,9 @@ export default function Publication({ key, user, name, image, url, likes, descri
     postid: "",
   });
 
+  console.log(Auth.token)
   console.log(`Auth é o ${Auth}`)
-
+  
   function changeLike() {
     if (liked) {
       setLiked(!liked);
@@ -64,35 +65,35 @@ export default function Publication({ key, user, name, image, url, likes, descri
       textRef.current.focus()
     } */
   };
-  function deleteIt(key, user) {
-    console.log(user, key)
-    console.log("deletando")
-    //const promise = api.deletePubli(id, auth.token);
-/*  
-    const body = {id: key, user: user}
-    const promise = api.deletePubli(body);
+  function deleteIt(e) {
+    setIsLoading(true);
+    const id = e.target.id;
+ 
+    const body = {id: id};
+    const promise = api.deletePost(body);
     promise.then(() => {
         setModalOpened(false);
+        setIsLoading(false);
         //chamar função para atualizar página
     })
     .catch((err) => {
-        console.log(err.response.data.message);
+        console.log(err.response.data);
         setModalOpened(false);
+        setIsLoading(false);
         alert("Não foi possível excluir o post!");
-    });  */  
+    }); 
   }
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       setIsDisabled(true);
-      const body = {id: key, user: user, description: event.target.value}
-      console.log(body)
-      const promise = api.updatePubli(body);
+      const body = {id: id, description: event.target.value}
+      const promise = api.updatePost(body);
       promise.then(() => {
         setIsDisabled(false);
         //chamar função para atualizar pagina
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.log(err.response.data);
         alert("Não foi possível salvar as alterações!");
         setIsDisabled(false);
       }); 
@@ -123,16 +124,16 @@ export default function Publication({ key, user, name, image, url, likes, descri
         </LikeContainer>
       </Image>
       <Content>
-        {<TrashButton onClick={edit}>
+        <TrashButton onClick={edit}>
           <TiPencil size={20} color="white" />
-        </TrashButton>}
+        </TrashButton>
         <TrashButton2 onClick={open}>
           <IoMdTrash size={20} color="white" />
         </TrashButton2>
         <Modal isOpen={modalOpened} onRequestClose={close} >
           <h2>Are you sure you want to delete this post?</h2>
           <BackButton onClick={close}>No, go back</BackButton>
-          <DelButton key={key} onChange={deleteIt}>
+          <DelButton id={id} onClick={(event) => deleteIt(event)}>
               {isLoading ? (
                 <ThreeDots width={50} height={50} color="#fff" />
               ) : (
@@ -152,9 +153,6 @@ export default function Publication({ key, user, name, image, url, likes, descri
               ) : (  <p>{description}</p>
         )}
         <div>
-          <p>Image: </p>
-          <h3>{user}</h3>
-          <p>{description}</p>
           <p>{url}</p>
         </div>
       </Content>

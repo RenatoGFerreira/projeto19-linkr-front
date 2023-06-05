@@ -11,9 +11,7 @@ function createConfig(token) {
 }
 
 function getPosts(){
-    console.log("GetPosts")
     const promise = axios.get(`${REACT_APP_API_URL}/post`)
-    console.log(promise)
     return promise
 }
 
