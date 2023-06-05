@@ -112,6 +112,10 @@ export const TrashButton2 = styled.button`
 `;
 
 export const Modal = styled(ReactModal)`
+  overlay {
+    z-index: 2;
+  }
+  
   width: 597px;
   height: 262px;
   position: fixed;
@@ -138,7 +142,17 @@ export const Modal = styled(ReactModal)`
     width: 134px;
     height: 37px;
     border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
+`;
+export const Buttons=styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `;
 export const BackButton = styled.button`
     background: #FFFFFF;
