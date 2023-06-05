@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
   import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
-
-
 export default function Publication({ user, name, image, url, likes, description }) {
   const { Auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
