@@ -3,11 +3,9 @@ import { PublicationContainer, Image, Content,
   TrashButton, TrashButton2, Modal, BackButton, DelButton, InputStyle } from "./Style";
 import { useEffect, useState, useRef, useContext } from "react";
 import urlMetadata from "url-metadata";
-//import ReactModal from "react-modal";
 import { IoMdTrash } from "react-icons/io";
 import { TiPencil } from "react-icons/ti";
 import { ThreeDots } from "react-loader-spinner";
-//import axios from "axios";
 import api from "../../../services/api";
 import { AuthContext } from "../../../contexts/AuthContext";
 
@@ -22,7 +20,7 @@ export default function Publication({ id, name, image, url, likes, description }
     postid: "",
   });
 
-  console.log(Auth.token)
+  //console.log(Auth.token)
   console.log(`Auth é o ${Auth}`)
   
   function changeLike() {
