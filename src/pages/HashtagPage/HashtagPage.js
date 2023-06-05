@@ -1,12 +1,13 @@
+import React, { useContext, useEffect, useState } from "react";
 import NavBar from "../../components/navBar/NavBar";
 import ScreenContainer from "../../components/ScreenContainer";
-import { Container, TimeContainer, Trending, Hashtag, ContainerHashtag, Separator, ConteudoHashtagTrending } from "./Style";
+import TrendingHashtags from "../../components/TimeLineComponent/TrendingTimeLine/Trending";
 import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/Publications";
+import { Container, TimeContainer, Trending, Hashtag, ContainerHashtag, Separator, ConteudoHashtagTrending } from "./Style";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useContext, useEffect, useState } from "react";
-import apiHashtags from "../../services/apiHashtag";
+import apiHashtags from "../../services/apiHashtag"
 
-export default function HashtagsSide() {
+export default function HashtagPage() {
   const { auth } = useContext(AuthContext);
   const [topHashtags, setTopHashtags] = useState([]);
 
@@ -43,6 +44,7 @@ export default function HashtagsSide() {
           </Trending>
         </TimeContainer>
       </Container>
+      <TrendingHashtags />
     </ScreenContainer>
   );
 }
@@ -51,7 +53,7 @@ function HashtagTrendings(props) {
   const { text } = props;
   return (
     <ConteudoHashtagTrending>
-      <Hashtag># {text}</Hashtag>
+      <Hashtag>{text}</Hashtag>
     </ConteudoHashtagTrending>
   );
 }

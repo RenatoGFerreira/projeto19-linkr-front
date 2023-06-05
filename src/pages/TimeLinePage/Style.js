@@ -32,3 +32,7 @@ export const TimeContainer = styled.div`
         margin-left: 0;
   }  
 `
+
+
+// Estilo Trending
+
