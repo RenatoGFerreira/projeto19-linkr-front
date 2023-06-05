@@ -8,10 +8,12 @@ import { TiPencil } from "react-icons/ti";
 import { ThreeDots } from "react-loader-spinner";
 import api from "../../../services/api";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 
-export default function Publication({ id, name, image, url, likes, description }) {
-  const { Auth } = useContext(AuthContext);
+
+export default function Publication({ id, user, name, image, url, likes, description }) {
+  const { auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
   const [linkMetadata, setLinkMetadata] = useState(null);
@@ -21,7 +23,7 @@ export default function Publication({ id, name, image, url, likes, description }
   });
 
   //console.log(Auth.token)
-  console.log(`Auth é o ${Auth}`)
+  console.log(`Auth é o ${auth}`)
   
   function changeLike() {
     if (liked) {
@@ -139,6 +141,7 @@ export default function Publication({ id, name, image, url, likes, description }
               )}
           </DelButton>
         </Modal> 
+        
         <h3>{name}</h3>
         {isEditing ? (
               <InputStyle 
@@ -150,9 +153,11 @@ export default function Publication({ id, name, image, url, likes, description }
               onKeyDown={handleKeyDown} /> 
               ) : (  <p>{description}</p>
         )}
-        <div>
+        <Link to={url} target="_blank">
+          <h3>{user}</h3>
+          <p>{description}</p>
           <p>{url}</p>
-        </div>
+        </Link>
       </Content>
     </PublicationContainer>
   );

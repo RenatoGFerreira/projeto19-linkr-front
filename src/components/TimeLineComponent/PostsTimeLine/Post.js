@@ -9,6 +9,8 @@ export default function Post() {
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({url: "", description: ""});
 
+  console.log(auth.token)
+
   useEffect(getPostList,[])
 
   function getPostList(){
@@ -28,6 +30,7 @@ export default function Post() {
 
   function handleCreate(e){
     e.preventDefault()
+    console.log(auth.token)
 
     const body ={...form}
     apiPosts.createPost(auth.token, body)
