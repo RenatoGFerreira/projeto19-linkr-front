@@ -1,13 +1,22 @@
 import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover } from "./Style";
   import urlMetadata from "url-metadata";
-  import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+  import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
+
 
 
 export default function Publication({ user, name, image, url, likes, description }) {
+  const { Auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const [likesAmount, setLikesAmount] = useState(0);
+  const [likesAmount, setLikesAmount] = useState(likes);
   const [linkMetadata, setLinkMetadata] = useState(null);
+  const [form, setForm] = useState({
+    likebyuser: "",
+    postid: "",
+  });
+
+  console.log(`Auth é o ${Auth}`)
 
   function changeLike() {
     if (liked) {
@@ -30,7 +39,11 @@ export default function Publication({ user, name, image, url, likes, description
           ) : (
             <IconHeart onClick={changeLike} />
           )}
-          <TextLike>{likesAmount} likes</TextLike>
+          {likes === 1?(
+            <TextLike>{likes} like</TextLike>
+          ):(
+            <TextLike>{likes} likes</TextLike>
+          )}
           <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
         </LikeContainer>
       </Image>
