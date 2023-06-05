@@ -19,7 +19,7 @@ export const Container = styled.div`
 
 export const TimeContainer = styled.div`
      width: 94%;
-     height: 100vh;
+     height: 100% auto;
      position: relative;
      margin-left: 25px;
      display: flex;

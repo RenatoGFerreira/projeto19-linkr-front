@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 65%;
-  height: 100%;
+  height: 100% auto;
   margin-right: 20px;
 `;
 
@@ -43,20 +43,30 @@ export const Form = styled.div`
     font-weight: 300;
     line-height: 24px;
     letter-spacing: 0.1rem;
-    margin: 15px;
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
   }
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    input {
-      width: 90%;
+    input{
+      width: 97%;
       height: 30px;
       margin-bottom: 10px;
       background: #efefef;
       border: none;
       border-radius: 5px;
+      align-self: flex-start;
+    }
+    textarea{
+      width: 97%;
+      height: 66px;
+      margin-bottom: 10px;
+      background: #efefef;
+      border: none;
+      resize: none;
+      border-radius: 5px;
+      align-self: flex-start;
     }
     &::placeholder{
     color: #9f9f9f;
@@ -65,7 +75,7 @@ export const Form = styled.div`
     }
     button {
       align-self: flex-end;
-      margin-right: 20px;
+      margin-right: 10px;
       background: #1877f2;
       width: 112px;
       height: 31px;
