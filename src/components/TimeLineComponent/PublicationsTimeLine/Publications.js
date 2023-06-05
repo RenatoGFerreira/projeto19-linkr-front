@@ -1,6 +1,7 @@
 import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover } from "./Style";
   import urlMetadata from "url-metadata";
   import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 export default function Publication({ user, name, image, url, likes, description }) {
@@ -17,21 +18,6 @@ export default function Publication({ user, name, image, url, likes, description
       setLikesAmount(likesAmount + 1);
     }
   }
-
-  useEffect(() => {
-    fetchLinkMetadata();
-  }, [url]);
-
-  async function fetchLinkMetadata() {
-    try {
-      const metadata = await urlMetadata(url);
-      console.log(metadata)
-      setLinkMetadata(metadata);
-    } catch (error) {
-      console.error("Ocorreu um erro ao buscar os metadados do link:", error);
-    }
-  }
-
 
   return (
     <PublicationContainer>
@@ -51,12 +37,11 @@ export default function Publication({ user, name, image, url, likes, description
       <Content>
         <h3>{name}</h3>
         <p>{description}</p>
-        <div>
-          <p>Image: </p>
+        <Link to={url} target="_blank">
           <h3>{user}</h3>
           <p>{description}</p>
           <p>{url}</p>
-        </div>
+        </Link>
       </Content>
     </PublicationContainer>
   );

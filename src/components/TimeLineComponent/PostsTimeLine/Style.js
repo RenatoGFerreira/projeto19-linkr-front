@@ -4,6 +4,9 @@ export const Container = styled.div`
   width: 65%;
   height: 100% auto;
   margin-right: 20px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const PostContainer = styled.div`
@@ -15,6 +18,12 @@ export const PostContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  @media (max-width: 768px) {
+    border-radius: 0;
+    height: 164px;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Image = styled.div`
@@ -23,6 +32,9 @@ export const Image = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 768px) {
+    display: none;
+  }
   img {
     width: 53px;
     height: 53px;
@@ -44,12 +56,17 @@ export const Form = styled.div`
     line-height: 24px;
     letter-spacing: 0.1rem;
     margin: 10px 0 10px 0;
+    @media (max-width: 768px) {
+        text-align: center;
+        font-size: 17px;
+        margin: 7px 0 7px 0;
+    }
   }
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    input{
+    input {
       width: 97%;
       height: 30px;
       margin-bottom: 10px;
@@ -57,8 +74,14 @@ export const Form = styled.div`
       border: none;
       border-radius: 5px;
       align-self: flex-start;
+      @media (max-width: 768px) {
+        height: 30px;
+        width: 90%;
+        margin-bottom: 7px;
+        align-self: center;
+      }
     }
-    textarea{
+    textarea {
       width: 97%;
       height: 66px;
       margin-bottom: 10px;
@@ -67,11 +90,17 @@ export const Form = styled.div`
       resize: none;
       border-radius: 5px;
       align-self: flex-start;
+      @media (max-width: 768px) {
+        height: 47px;
+        width: 90%;
+        align-self: center;
+        margin-bottom: 7px;
+      }
     }
-    &::placeholder{
-    color: #9f9f9f;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
+    &::placeholder {
+      color: #9f9f9f;
+      font-family: "Oswald", sans-serif;
+      font-weight: 700;
     }
     button {
       align-self: flex-end;
@@ -83,6 +112,10 @@ export const Form = styled.div`
       border: none;
       color: #ffffff;
       cursor: pointer;
+      @media (max-width: 768px) {
+        height: 22px;
+        margin-right: 17px;
+      }
     }
   }
 `;
