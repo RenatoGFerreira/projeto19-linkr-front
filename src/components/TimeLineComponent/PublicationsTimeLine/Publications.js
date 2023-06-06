@@ -1,29 +1,68 @@
 import { PublicationContainer, Image, Content, IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover } from "./Style";
   import urlMetadata from "url-metadata";
   import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../../contexts/AuthContext";
+import apiLikes from "../../../services/apiLike";
 
 
-export default function Publication({ user, name, image, url, likes, description }) {
-  const { Auth } = useContext(AuthContext);
+export default function Publication({ user, name, image, url, likes, description, likebyuser, postid }) {
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
   const [linkMetadata, setLinkMetadata] = useState(null);
   const [form, setForm] = useState({
-    likebyuser: "",
-    postid: "",
+    likebyuser: likebyuser,
+    postid: postid,
   });
 
-  console.log(`Auth é o ${Auth}`)
+  console.log(url)
+
+  useEffect(() => {
+    getLikes()
+  }, [])
 
   function changeLike() {
     if (liked) {
       setLiked(!liked);
       setLikesAmount(likesAmount - 1);
+      removeLike()
     } else {
       setLiked(!liked);
       setLikesAmount(likesAmount + 1);
+      insertLike()
     }
+  }
+
+  function insertLike() {
+    apiLikes.insertLike(form)
+      .then(res => {
+        console.log(form)
+        const ls = res.data
+        console.log(res.data)
+      })
+      .catch(err => {
+        alert(err.response.data)
+      })
+  }
+
+  function removeLike() {
+    apiLikes.deleteLike(form)
+      .then(res => {
+        const ls = res.data
+        console.log(ls)
+      })
+      .catch(err => {
+        alert(err.response.data)
+      })
+  }
+
+  function getLikes(){
+    apiLikes.getTotalLikes(postid)
+    .then(res => {
+      const ls = res.data
+      console.log(ls)
+    })
+    .catch(err => {
+      alert(err.response.data)
+    })
   }
 
   useEffect(() => {
@@ -39,7 +78,6 @@ export default function Publication({ user, name, image, url, likes, description
       console.error("Ocorreu um erro ao buscar os metadados do link:", error);
     }
   }
-
 
   return (
     <PublicationContainer>

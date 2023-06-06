@@ -69,16 +69,18 @@ export default function Post() {
                 <button type="submit" disabled={false}>Publish</button>
             </form>
         </Form>
-      </PostContainer>
+      </PostContainer >
       {
         posts.map(p => (
           <Publication
             key={p.id}
+            postid = {p.id}
             name={p.name}
             image={p.image}
             url={p.url}
             likes={p.likes}
             description={p.description}
+            likebyuser={auth.id}
           />
         ))
       }
