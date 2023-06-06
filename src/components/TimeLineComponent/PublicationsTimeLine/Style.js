@@ -115,7 +115,6 @@ export const Modal = styled(ReactModal)`
   overlay {
     z-index: 2;
   }
-  
   width: 597px;
   height: 262px;
   position: fixed;

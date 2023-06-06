@@ -20,5 +20,17 @@ function createPost(token, body){
     return promise
 }
 
-const apiPosts = {getPosts, createPost};
+function deletePost(body, token) {
+    const config = createConfig(token);
+    config.data = body;
+    const promise = axios.delete(`${REACT_APP_API_URL}/post`, config);
+    return promise;
+}
+
+function updatePost(body, token) {
+    const promise = axios.put(`${REACT_APP_API_URL}/post`, body, createConfig(token));
+    return promise;
+}
+
+const apiPosts = {getPosts, createPost, deletePost, updatePost};
 export default apiPosts;
