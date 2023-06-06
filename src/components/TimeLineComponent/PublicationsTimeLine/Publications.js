@@ -1,6 +1,6 @@
 import { PublicationContainer, Image, Content, 
   IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover,
-  TrashButton, TrashButton2, Modal, BackButton, DelButton, InputStyle } from "./Style";
+  TrashButton, TrashButton2, Modal, BackButton, DelButton, InputStyle, Buttons } from "./Style";
 import { useEffect, useState, useRef, useContext } from "react";
 import urlMetadata from "url-metadata";
 import { IoMdTrash } from "react-icons/io";
@@ -19,6 +19,11 @@ export default function Publication({ user, name, image, url, likes, description
     likebyuser: "",
     postid: "",
   });
+  const [modalOpened, setModalOpened] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const textRef = useRef(null);
 
   //console.log(Auth.token)
   console.log(`Auth é o ${auth}`)
@@ -46,13 +51,6 @@ export default function Publication({ user, name, image, url, likes, description
       console.error("Ocorreu um erro ao buscar os metadados do link:", error);
     }
   }
-
-  //meu código  
-  const [modalOpened, setModalOpened] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const textRef = useRef(null);
   
   const open = () => { setModalOpened(true) };
   const close = () => { setModalOpened(false) };
@@ -122,27 +120,30 @@ export default function Publication({ user, name, image, url, likes, description
         </LikeContainer>
       </Image>
       <Content>
-        <TrashButton onClick={edit}>
+        <TrashButton data-test="edit-btn" onClick={edit}>
           <TiPencil size={20} color="white" />
         </TrashButton>
-        <TrashButton2 onClick={open}>
+        <TrashButton2 data-test="delete-btn" onClick={open}>
           <IoMdTrash size={20} color="white" />
         </TrashButton2>
         <Modal isOpen={modalOpened} onRequestClose={close} >
           <h2>Are you sure you want to delete this post?</h2>
-          <BackButton onClick={close}>No, go back</BackButton>
-          <DelButton id={id} onClick={(event) => deleteIt(event)}>
-              {isLoading ? (
-                <ThreeDots width={50} height={50} color="#fff" />
-              ) : (
-                "Yes, delete it"
-              )}
-          </DelButton>
+          <Buttons>
+            <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
+            <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
+                {isLoading ? (
+                  <ThreeDots width={50} height={50} color="#fff" />
+                ) : (
+                  "Yes, delete it"
+                )}
+            </DelButton>
+          </Buttons>
         </Modal> 
         
         <h3>{name}</h3>
         {isEditing ? (
               <InputStyle 
+              data-test="edit-input"
               type="text" 
               ref={textRef} 
               disabled={isDisabled}
