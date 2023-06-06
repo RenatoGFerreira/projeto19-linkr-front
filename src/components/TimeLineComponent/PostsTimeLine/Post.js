@@ -30,7 +30,6 @@ export default function Post() {
 
   function handleCreate(e){
     e.preventDefault()
-    console.log(auth.token)
 
     const body ={...form}
     apiPosts.createPost(auth.token, body)
@@ -77,6 +76,7 @@ export default function Post() {
       {
         posts.map(p => (
           <Publication
+            key={p.id}
             id={p.id}
             name={p.name}
             image={p.image}
