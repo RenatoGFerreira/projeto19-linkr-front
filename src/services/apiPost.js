@@ -32,5 +32,13 @@ function updatePost(body, token) {
     return promise;
 }
 
-const apiPosts = {getPosts, createPost, deletePost, updatePost};
+function getPostsByHashtag(hashtag) {
+    const promise = axios.get(`${REACT_APP_API_URL}/hashtag/${hashtag}`);
+    return promise;
+  }
+  
+
+const apiPosts = {getPosts, createPost, deletePost, updatePost, getPostsByHashtag};
 export default apiPosts;
+
+
