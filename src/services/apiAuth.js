@@ -12,6 +12,7 @@ function createConfig(token) {
 
 function signup(body) {
     const promise = axios.post(`${BASE_URL}/sign-up`, body)
+    console.log(promise.response)
     return promise
 }
 

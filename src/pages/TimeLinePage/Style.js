@@ -5,6 +5,9 @@ export const Container = styled.div`
   height: 100% auto;
   position: relative;
   margin-top: 72px;
+  @media (max-width: 768px) {
+        width: 100%; 
+  }
   h2{
     font-family: "Oswald", cursive;
     color: #fff;
@@ -23,5 +26,13 @@ export const TimeContainer = styled.div`
      position: relative;
      margin-left: 25px;
      display: flex;
-     justify-content: space-between;     
+     justify-content: space-between;   
+     @media (max-width: 768px) {
+        width: 100%; 
+        margin-left: 0;
+  }  
 `
+
+
+// Estilo Trending
+

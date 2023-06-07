@@ -1,20 +1,20 @@
 import { PublicationContainer, Image, Content, 
   IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover,
-  TrashButton, TrashButton2, Modal, BackButton, DelButton, InputStyle, Buttons } from "./Style";
-import { useEffect, useState, useRef, useContext } from "react";
+  TrashButton, TrashButton2, Modal, BackButton, DelButton, InputStyle, Buttons, Modal } from "./Style";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import urlMetadata from "url-metadata";
 import { IoMdTrash } from "react-icons/io";
 import { TiPencil } from "react-icons/ti";
 import { ThreeDots } from "react-loader-spinner";
-import api from "../../../services/api";
+import apiPosts from "../../../services/apiPost";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
-export default function Publication({ user, name, image, url, likes, description }) {
-  const { Auth } = useContext(AuthContext);
+
+export default function Publication({ userId, id, name, image, url, likes, description, getPostList }) {
+  const { auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
-  const [linkMetadata, setLinkMetadata] = useState(null);
   const [form, setForm] = useState({
     likebyuser: "",
     postid: "",
@@ -24,10 +24,9 @@ export default function Publication({ user, name, image, url, likes, description
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const textRef = useRef(null);
+  const token = auth.token;
+  const user = auth.id;
 
-  //console.log(Auth.token)
-  console.log(`Auth é o ${Auth}`)
-  
   function changeLike() {
     if (liked) {
       setLiked(!liked);
@@ -38,17 +37,14 @@ export default function Publication({ user, name, image, url, likes, description
     }
   }
 
-  useEffect(() => {
-    fetchLinkMetadata();
-  }, [url]);
+  const open = () => { setModalOpened(true) };
+  const close = () => { setModalOpened(false) };
+  const edit = () => { setIsEditing(!isEditing)};
+  function cursor() { textRef.current.focus()};
 
-  async function fetchLinkMetadata() {
-    try {
-      const metadata = await urlMetadata(url);
-      console.log(metadata)
-      setLinkMetadata(metadata);
-    } catch (error) {
-      console.error("Ocorreu um erro ao buscar os metadados do link:", error);
+  useEffect(() => { 
+    if (isEditing) {
+      cursor()
     }
   }
   
@@ -61,17 +57,18 @@ export default function Publication({ user, name, image, url, likes, description
       textRef.current.focus()
     } */
   };
+  
+
   function deleteIt(e) {
     setIsLoading(true);
-    console.log(e.target.id)
     const id = e.target.id;
- 
     const body = {id: id};
-    const promise = api.deletePost(body);
+    const promise = apiPosts.deletePost(body, token);
     promise.then(() => {
         setModalOpened(false);
         setIsLoading(false);
         //chamar função para atualizar página
+        getPostList();
     })
     .catch((err) => {
         console.log(err.response.data);
@@ -88,6 +85,13 @@ export default function Publication({ user, name, image, url, likes, description
       promise.then(() => {
         setIsDisabled(false);
         //chamar função para atualizar pagina
+        
+      const promise = apiPosts.updatePost(body, token);
+      promise.then(() => {
+        setIsDisabled(false);
+        //chamar função para atualizar pagina
+        getPostList();
+        
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -97,6 +101,7 @@ export default function Publication({ user, name, image, url, likes, description
       
     } else if (event.key === 'Escape') {
       console.log("Esc")
+
       handleBlur();
     }
   }
@@ -121,6 +126,7 @@ export default function Publication({ user, name, image, url, likes, description
         </LikeContainer>
       </Image>
       <Content>
+
         <TrashButton data-test="edit-btn" onClick={edit}>
           <TiPencil size={20} color="white" />
         </TrashButton>
@@ -128,6 +134,22 @@ export default function Publication({ user, name, image, url, likes, description
           <IoMdTrash size={20} color="white" />
         </TrashButton2>
         <Modal isOpen={modalOpened} onRequestClose={close} >
+        {(userId !== user) ? (
+          ""
+        ) : (
+            <>
+            <TrashButton data-test="edit-btn" onClick={edit}>
+              <TiPencil size={20} color="white" />
+            </TrashButton>
+            <TrashButton2 data-test="delete-btn" onClick={open}>
+              <IoMdTrash size={20} color="white" />
+            </TrashButton2> 
+            </>
+        )}
+        <Modal 
+        isOpen={modalOpened} 
+        onRequestClose={close}
+        appElement={document.getElementById('root')}>
           <h2>Are you sure you want to delete this post?</h2>
           <Buttons>
             <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
@@ -140,7 +162,7 @@ export default function Publication({ user, name, image, url, likes, description
             </DelButton>
           </Buttons>
         </Modal> 
-        
+
         <h3>{name}</h3>
         {isEditing ? (
               <InputStyle 
@@ -155,10 +177,17 @@ export default function Publication({ user, name, image, url, likes, description
         )}
         <Link to={url} target="_blank">
           <h3>{user}</h3>
+
+          <h3>{name}</h3>
+
           <p>{description}</p>
           <p>{url}</p>
         </Link>
       </Content>
     </PublicationContainer>
   );
+
 }
+
+}
+

@@ -17,6 +17,7 @@ export default function Post() {
       setPosts(res.data)
     })
     .catch(err =>{
+      console.log(err.response.data)
       alert(err.response.data.message)
     })
   }
@@ -75,12 +76,13 @@ export default function Post() {
           <Publication
             key={p.id}
             postid = {p.id}
+            userId={p.userId}
             name={p.name}
             image={p.image}
             url={p.url}
             likes={p.likes}
             description={p.description}
-            likebyuser={auth.id}
+            getPostList={getPostList}
           />
         ))
       }
