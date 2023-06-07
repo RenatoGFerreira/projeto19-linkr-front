@@ -1,13 +1,29 @@
-import { PublicationContainer, Image, Content, 
-  IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover,
-  TrashButton, TrashButton2, BackButton, DelButton, InputStyle, Buttons, Modal } from "./Style";
+import {
+  PublicationContainer,
+  Image,
+  Content,
+  IconHeart,
+  IconHeartfill,
+  TextLike,
+  LikeContainer,
+  TextLikeHover,
+  TrashButton,
+  TrashButton2,
+  BackButton,
+  DelButton,
+  InputStyle,
+  Buttons,
+  Modal,
+  tagStyle,
+} from "./Style";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { TiPencil } from "react-icons/ti";
 import { ThreeDots } from "react-loader-spinner";
 import apiPosts from "../../../services/apiPost";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { Tagify } from "react-tagify";
 
 export default function Publication({ id, user, name, image, url, likes, description }) {
   const { auth } = useContext(AuthContext);
@@ -24,8 +40,8 @@ export default function Publication({ id, user, name, image, url, likes, descrip
   const [isLoading, setIsLoading] = useState(false);
   const textRef = useRef(null);
   const token = auth.token;
-  
-  
+  const navigate = useNavigate();
+
   function changeLike() {
     if (liked) {
       setLiked(!liked);
@@ -36,74 +52,76 @@ export default function Publication({ id, user, name, image, url, likes, descrip
     }
   }
 
- 
-  const open = () => { setModalOpened(true) };
-  const close = () => { setModalOpened(false) };
-  const edit = () => { setIsEditing(!isEditing)};
-  function cursor() { textRef.current.focus()};
+  const open = () => {
+    setModalOpened(true);
+  };
+  const close = () => {
+    setModalOpened(false);
+  };
+  const edit = () => {
+    setIsEditing(!isEditing);
+  };
+  function cursor() {
+    textRef.current.focus();
+  }
 
-  useEffect(() => { 
+  useEffect(() => {
     if (isEditing) {
-      cursor()
+      cursor();
     }
   }, [isEditing]);
 
   function deleteIt(e) {
     setIsLoading(true);
     const id = e.target.id;
-    const body = {id: id};
+    const body = { id: id };
     const promise = apiPosts.deletePost(body, token);
-    promise.then(() => {
+    promise
+      .then(() => {
         setModalOpened(false);
         setIsLoading(false);
         //chamar função para atualizar página
         window.location.reload(true);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.log(err.response.data);
         setModalOpened(false);
         setIsLoading(false);
         alert("Não foi possível excluir o post!");
-    }); 
+      });
   }
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       setIsDisabled(true);
-      const body = {id: id, description: event.target.value}
+      const body = { id: id, description: event.target.value };
       const promise = apiPosts.updatePost(body, token);
-      promise.then(() => {
-        setIsDisabled(false);
-        //chamar função para atualizar pagina
-        window.location.reload(true);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        alert("Não foi possível salvar as alterações!");
-        setIsDisabled(false);
-      }); 
-      
-    } else if (event.key === 'Escape') {
-      console.log("Esc")
+      promise
+        .then(() => {
+          setIsDisabled(false);
+          //chamar função para atualizar pagina
+          window.location.reload(true);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          alert("Não foi possível salvar as alterações!");
+          setIsDisabled(false);
+        });
+    } else if (event.key === "Escape") {
+      console.log("Esc");
       handleBlur();
     }
-  }
-  const handleBlur = () => { setIsEditing(false) };
+  };
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
 
   return (
     <PublicationContainer>
       <Image>
-        <img src={image} alt="description"/>
+        <img src={image} alt="description" />
         <LikeContainer>
-          {liked ? (
-            <IconHeartfill onClick={changeLike} />
-          ) : (
-            <IconHeart onClick={changeLike} />
-          )}
-          {likes === 1?(
-            <TextLike>{likes} like</TextLike>
-          ):(
-            <TextLike>{likes} likes</TextLike>
-          )}
+          {liked ? <IconHeartfill onClick={changeLike} /> : <IconHeart onClick={changeLike} />}
+          {likes === 1 ? <TextLike>{likes} like</TextLike> : <TextLike>{likes} likes</TextLike>}
           <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
         </LikeContainer>
       </Image>
@@ -114,46 +132,41 @@ export default function Publication({ id, user, name, image, url, likes, descrip
         <TrashButton2 data-test="delete-btn" onClick={open}>
           <IoMdTrash size={20} color="white" />
         </TrashButton2>
-        <Modal 
-        isOpen={modalOpened} 
-        onRequestClose={close}
-        appElement={document.getElementById('root')}>
+        <Modal isOpen={modalOpened} onRequestClose={close} appElement={document.getElementById("root")}>
           <h2>Are you sure you want to delete this post?</h2>
           <Buttons>
-            <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
+            <BackButton data-test="cancel" onClick={close}>
+              No, go back
+            </BackButton>
             <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
-                {isLoading ? (
-                  <ThreeDots width={50} height={50} color="#fff" />
-                ) : (
-                  "Yes, delete it"
-                )}
+              {isLoading ? <ThreeDots width={50} height={50} color="#fff" /> : "Yes, delete it"}
             </DelButton>
           </Buttons>
-        </Modal> 
-      
-        <h3>{name}</h3>
+        </Modal>
+
+        <h3 className="name">{name}</h3>
         {isEditing ? (
-              <InputStyle 
-              data-test="edit-input"
-              type="text" 
-              ref={textRef} 
-              disabled={isDisabled}
-              defaultValue={description} 
-              onBlur={handleBlur} 
-              onKeyDown={handleKeyDown} /> 
-              ) : (  <p>{description}</p>
+          <InputStyle
+            data-test="edit-input"
+            type="text"
+            ref={textRef}
+            disabled={isDisabled}
+            defaultValue={description}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+          />
+        ) : (
+          <></>
         )}
+
+        <h3 className="user">{user}</h3>
+        <Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
+          <p className="description">{description}</p>
+        </Tagify>
         <Link to={url} target="_blank">
-          <h3>{user}</h3>
-          <p>{description}</p>
-          <p>{url}</p>
+          <p className="url">{url}</p>
         </Link>
       </Content>
     </PublicationContainer>
   );
 }
-
-
-
-
-
