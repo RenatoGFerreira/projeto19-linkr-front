@@ -9,8 +9,6 @@ export default function Post() {
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({url: "", description: ""});
 
-  console.log(auth.token)
-
   useEffect(getPostList,[])
 
   function getPostList(){
@@ -77,12 +75,14 @@ export default function Post() {
         posts.map(p => (
           <Publication
             key={p.id}
+            userId={p.userId}
             id={p.id}
             name={p.name}
             image={p.image}
             url={p.url}
             likes={p.likes}
             description={p.description}
+            getPostList={getPostList}
           />
         ))
       }

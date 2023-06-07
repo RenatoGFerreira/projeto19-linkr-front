@@ -9,11 +9,10 @@ import apiPosts from "../../../services/apiPost";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 
-export default function Publication({ id, user, name, image, url, likes, description }) {
+export default function Publication({ userId, id, name, image, url, likes, description, getPostList }) {
   const { auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
-  const [linkMetadata, setLinkMetadata] = useState(null);
   const [form, setForm] = useState({
     likebyuser: "",
     postid: "",
@@ -24,8 +23,7 @@ export default function Publication({ id, user, name, image, url, likes, descrip
   const [isLoading, setIsLoading] = useState(false);
   const textRef = useRef(null);
   const token = auth.token;
-  
-  
+  const user = auth.id;
   function changeLike() {
     if (liked) {
       setLiked(!liked);
@@ -36,7 +34,6 @@ export default function Publication({ id, user, name, image, url, likes, descrip
     }
   }
 
- 
   const open = () => { setModalOpened(true) };
   const close = () => { setModalOpened(false) };
   const edit = () => { setIsEditing(!isEditing)};
@@ -57,7 +54,7 @@ export default function Publication({ id, user, name, image, url, likes, descrip
         setModalOpened(false);
         setIsLoading(false);
         //chamar função para atualizar página
-        window.location.reload(true);
+        getPostList();
     })
     .catch((err) => {
         console.log(err.response.data);
@@ -74,7 +71,7 @@ export default function Publication({ id, user, name, image, url, likes, descrip
       promise.then(() => {
         setIsDisabled(false);
         //chamar função para atualizar pagina
-        window.location.reload(true);
+        getPostList();
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -83,7 +80,6 @@ export default function Publication({ id, user, name, image, url, likes, descrip
       }); 
       
     } else if (event.key === 'Escape') {
-      console.log("Esc")
       handleBlur();
     }
   }
@@ -108,12 +104,18 @@ export default function Publication({ id, user, name, image, url, likes, descrip
         </LikeContainer>
       </Image>
       <Content>
-        <TrashButton data-test="edit-btn" onClick={edit}>
-          <TiPencil size={20} color="white" />
-        </TrashButton>
-        <TrashButton2 data-test="delete-btn" onClick={open}>
-          <IoMdTrash size={20} color="white" />
-        </TrashButton2>
+        {(userId !== user) ? (
+          ""
+        ) : (
+            <>
+            <TrashButton data-test="edit-btn" onClick={edit}>
+              <TiPencil size={20} color="white" />
+            </TrashButton>
+            <TrashButton2 data-test="delete-btn" onClick={open}>
+              <IoMdTrash size={20} color="white" />
+            </TrashButton2> 
+            </>
+        )}
         <Modal 
         isOpen={modalOpened} 
         onRequestClose={close}
@@ -130,7 +132,6 @@ export default function Publication({ id, user, name, image, url, likes, descrip
             </DelButton>
           </Buttons>
         </Modal> 
-      
         <h3>{name}</h3>
         {isEditing ? (
               <InputStyle 
@@ -144,7 +145,7 @@ export default function Publication({ id, user, name, image, url, likes, descrip
               ) : (  <p>{description}</p>
         )}
         <Link to={url} target="_blank">
-          <h3>{user}</h3>
+          <h3>{name}</h3>
           <p>{description}</p>
           <p>{url}</p>
         </Link>
