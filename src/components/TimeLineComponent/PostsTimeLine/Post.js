@@ -9,20 +9,19 @@ export default function Post() {
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({ url: "", description: "" });
 
-
-
-  useEffect(getPostList,[])
+  useEffect(getPostList, []);
 
   function getPostList() {
     apiPosts.getPosts()
-    .then(res => {
-      console.log(res.data)
-      setPosts(res.data)
-    })
-    .catch(err =>{
-      console.log(err.response.data)
-      alert(err.response.data.message)
-    })}
+      .then(res => {
+        console.log(res.data);
+        setPosts(res.data)
+      })
+      .catch(err => {
+        console.log(err.response.data)
+        alert(err.response.data.message)
+      })
+  }
 
   function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value });

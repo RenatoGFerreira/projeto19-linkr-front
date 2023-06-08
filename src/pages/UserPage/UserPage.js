@@ -8,9 +8,7 @@ import Publication from "../../components/TimeLineComponent/PublicationsTimeLine
 
 export default function UserPage() {
 
-    //const navigate = useNavigate();
     const { id } = useParams();
-    //const config = { headers: { Authorization: `Bearer ${auth.token}` } };
     const [userPosts, setUserPosts] = useState([]);
     const [user, setUser] = useState("");
 
@@ -24,9 +22,8 @@ export default function UserPage() {
             setUserPosts(res.data);
             setUser(res.data[0].username);
 
-
         } catch (error) {
-            alert(error.message);
+            console.log(error.message);
         }
     };
 
@@ -41,6 +38,7 @@ export default function UserPage() {
                         name={p.username}
                         image={p.image}
                         description={p.description}
+                        userId={p.userId}
                         url={p.url} />)}
                 </TimeContainer>
             </Container>

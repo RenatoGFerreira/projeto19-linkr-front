@@ -56,8 +56,8 @@ export default function Publication({ userId, id, name, image, url, likes, descr
 
   const open = () => { setModalOpened(true) };
   const close = () => { setModalOpened(false) };
-  const edit = () => { setIsEditing(!isEditing)};
-  function cursor() { textRef.current.focus()}
+  const edit = () => { setIsEditing(!isEditing) };
+  function cursor() { textRef.current.focus() };
 
   useEffect(() => {
     if (isEditing) {
@@ -70,6 +70,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
     const id = e.target.id;
     const body = { id: id };
     const promise = apiPosts.deletePost(body, token);
+
     promise
       .then(() => {
         setModalOpened(false);
@@ -78,32 +79,33 @@ export default function Publication({ userId, id, name, image, url, likes, descr
       })
       .catch((err) => {
         getPostList();
-    })
-    .catch((err) => {
-
+      })
+      .catch((err) => {
         console.log(err.response.data);
         setModalOpened(false);
         setIsLoading(false);
         alert("Não foi possível excluir o post!");
       });
   }
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       setIsDisabled(true);
+
       const body = { id: id, description: event.target.value };
+
       const promise = apiPosts.updatePost(body, token);
-      
       promise.then(() => {
         setIsDisabled(false);
         //chamar função para atualizar pagina
         getPostList();
       })
-      .catch((err) => {
-        console.log(err.response.data);
-        alert("Não foi possível salvar as alterações!");
-        setIsDisabled(false);
-      }); 
-      
+        .catch((err) => {
+          console.log(err.response.data);
+          alert("Não foi possível salvar as alterações!");
+          setIsDisabled(false);
+        });
+
     } else if (event.key === 'Escape') {
       handleBlur();
     }
@@ -126,32 +128,35 @@ export default function Publication({ userId, id, name, image, url, likes, descr
         {(userId !== user) ? (
           ""
         ) : (
-            <>
+          <>
             <TrashButton data-test="edit-btn" onClick={edit}>
               <TiPencil size={20} color="white" />
             </TrashButton>
             <TrashButton2 data-test="delete-btn" onClick={open}>
               <IoMdTrash size={20} color="white" />
-            </TrashButton2> 
-            </>
+            </TrashButton2>
+          </>
         )}
-        <Modal 
-        isOpen={modalOpened} 
-        onRequestClose={close}
-        appElement={document.getElementById('root')}>
+        <Modal
+          isOpen={modalOpened}
+          onRequestClose={close}
+          appElement={document.getElementById('root')}>
           <h2>Are you sure you want to delete this post?</h2>
           <Buttons>
             <BackButton data-test="cancel" onClick={close}>
               No, go back
             </BackButton>
             <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
-              {isLoading ? <ThreeDots width={50} height={50} color="#fff" /> : "Yes, delete it"}
+
+              {isLoading ? (
+                <ThreeDots width={50} height={50} color="#fff" />
+              ) : (
+                "Yes, delete it"
+              )}
             </DelButton>
           </Buttons>
         </Modal>
-
-        <h3 className="name">{name}</h3>
-
+        <h3 onClick={() => navigate(`/user/${userId}`)}>{name}</h3>
         {isEditing ? (
           <InputStyle
             data-test="edit-input"
@@ -160,10 +165,8 @@ export default function Publication({ userId, id, name, image, url, likes, descr
             disabled={isDisabled}
             defaultValue={description}
             onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-          />
-        ) : (
-          <></>
+            onKeyDown={handleKeyDown} />
+        ) : (<p>{description}</p>
         )}
 
         <h3 className="user">{user}</h3>

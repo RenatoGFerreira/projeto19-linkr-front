@@ -24,7 +24,7 @@ export default function SearchBar() {
             console.log(error.response.data);
         }
 
-    };
+    }
 
     return (
         <SearchBarBox>
@@ -44,7 +44,9 @@ export default function SearchBar() {
                     {userList.map(l => <FoundUserBox
                         key={l.id}
                         username={l.username}
-                        image={l.image} />)}
+                        image={l.image}
+                        userId={l.id}
+                    />)}
                 </UserColumn>
             </DropBox>
         </SearchBarBox>
