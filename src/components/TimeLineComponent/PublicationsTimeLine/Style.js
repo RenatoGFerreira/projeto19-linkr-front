@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import ReactModal from "react-modal";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  height: auto;
+`
 export const PublicationContainer = styled.div`
   width: 100%;
   height: 276px;
@@ -16,7 +24,7 @@ export const PublicationContainer = styled.div`
 `;
 
 export const Image = styled.div`
-  width: 80px;
+  width: 86px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -67,6 +75,7 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 position: relative;
+margin-top: 5px;
 :hover{
   h4{
     display: block;
@@ -191,7 +200,12 @@ export const IconHeart = styled(AiOutlineHeart)`
   align-items: center;
   cursor: pointer;
 `;
-
+export const IconComment = styled(AiOutlineComment)`
+  font-size: 20px;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+`;
 export const TextLike = styled.h3`
   color: #fff;
   font-family: 'Lato';

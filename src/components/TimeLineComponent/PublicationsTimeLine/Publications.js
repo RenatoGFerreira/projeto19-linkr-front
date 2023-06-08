@@ -1,6 +1,6 @@
 import { PublicationContainer, Image, Content, 
-  IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover,
-  TrashButton, TrashButton2, BackButton, DelButton, InputStyle, Buttons, Modal } from "./Style";
+  IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover, IconComment,
+  TrashButton, TrashButton2, BackButton, DelButton, InputStyle, Buttons, Modal, Container } from "./Style";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { TiPencil } from "react-icons/ti";
@@ -8,6 +8,7 @@ import { ThreeDots } from "react-loader-spinner";
 import apiPosts from "../../../services/apiPost";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
+import PostComment from "../CommentTimeLine/PostComment";
 
 export default function Publication({ userId, id, name, image, url, likes, description, getPostList }) {
   const { auth } = useContext(AuthContext);
@@ -21,6 +22,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const [isEditing, setIsEditing] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isComment, setIsComment] = useState(false);
   const textRef = useRef(null);
   const token = auth.token;
   const user = auth.id;
@@ -53,8 +55,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
     promise.then(() => {
         setModalOpened(false);
         setIsLoading(false);
-        //chamar função para atualizar página
-        getPostList();
+        getPostList(); //chamar função para atualizar página
     })
     .catch((err) => {
         console.log(err.response.data);
@@ -70,8 +71,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
       const promise = apiPosts.updatePost(body, token);
       promise.then(() => {
         setIsDisabled(false);
-        //chamar função para atualizar pagina
-        getPostList();
+        getPostList(); //chamar função para atualizar pagina
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -85,76 +85,88 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   }
   const handleBlur = () => { setIsEditing(false) };
 
+  const numComments = 0;
+  function comment(){
+    console.log("Hello")
+    setIsComment(!isComment)
+  }
   return (
-    <PublicationContainer>
-      <Image>
-        <img src={image} alt="description"/>
-        <LikeContainer>
-          {liked ? (
-            <IconHeartfill onClick={changeLike} />
+    <Container>
+      <PublicationContainer>
+        <Image>
+          <img src={image} alt="description"/>
+          <LikeContainer>
+            {liked ? (
+              <IconHeartfill onClick={changeLike} />
+            ) : (
+              <IconHeart onClick={changeLike} />
+            )}
+            {likes === 1?(
+              <TextLike>{likes} like</TextLike>
+            ):(
+              <TextLike>{likes} likes</TextLike>
+            )}
+            <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
+          </LikeContainer>
+          
+          <LikeContainer>
+            <IconComment onClick={comment} />
+            <TextLike>
+                {numComments !== 0 ? (`${numComments} comments`):( `0 comment` )}
+            </TextLike>
+          </LikeContainer>
+
+        </Image>
+        <Content>
+          {(userId !== user) ? (
+            ""
           ) : (
-            <IconHeart onClick={changeLike} />
+              <>
+              <TrashButton data-test="edit-btn" onClick={edit}>
+                <TiPencil size={20} color="white" />
+              </TrashButton>
+              <TrashButton2 data-test="delete-btn" onClick={open}>
+                <IoMdTrash size={20} color="white" />
+              </TrashButton2> 
+              </>
           )}
-          {likes === 1?(
-            <TextLike>{likes} like</TextLike>
-          ):(
-            <TextLike>{likes} likes</TextLike>
-          )}
-          <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
-        </LikeContainer>
-      </Image>
-      <Content>
-        {(userId !== user) ? (
-          ""
-        ) : (
-            <>
-            <TrashButton data-test="edit-btn" onClick={edit}>
-              <TiPencil size={20} color="white" />
-            </TrashButton>
-            <TrashButton2 data-test="delete-btn" onClick={open}>
-              <IoMdTrash size={20} color="white" />
-            </TrashButton2> 
-            </>
-        )}
-        <Modal 
-        isOpen={modalOpened} 
-        onRequestClose={close}
-        appElement={document.getElementById('root')}>
-          <h2>Are you sure you want to delete this post?</h2>
-          <Buttons>
-            <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
-            <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
-                {isLoading ? (
-                  <ThreeDots width={50} height={50} color="#fff" />
-                ) : (
-                  "Yes, delete it"
-                )}
-            </DelButton>
-          </Buttons>
-        </Modal> 
-        <h3>{name}</h3>
-        {isEditing ? (
-              <InputStyle 
-              data-test="edit-input"
-              type="text" 
-              ref={textRef} 
-              disabled={isDisabled}
-              defaultValue={description} 
-              onBlur={handleBlur} 
-              onKeyDown={handleKeyDown} /> 
-              ) : (  <p>{description}</p>
-        )}
-        <Link to={url} target="_blank">
+          <Modal 
+          isOpen={modalOpened} 
+          onRequestClose={close}
+          appElement={document.getElementById('root')}>
+            <h2>Are you sure you want to delete this post?</h2>
+            <Buttons>
+              <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
+              <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
+                  {isLoading ? (
+                    <ThreeDots width={50} height={50} color="#fff" />
+                  ) : (
+                    "Yes, delete it"
+                  )}
+              </DelButton>
+            </Buttons>
+          </Modal> 
           <h3>{name}</h3>
-          <p>{description}</p>
-          <p>{url}</p>
-        </Link>
-      </Content>
-    </PublicationContainer>
+          {isEditing ? (
+                <InputStyle 
+                data-test="edit-input"
+                type="text" 
+                ref={textRef} 
+                disabled={isDisabled}
+                defaultValue={description} 
+                onBlur={handleBlur} 
+                onKeyDown={handleKeyDown} /> 
+                ) : (  <p>{description}</p>
+          )}
+          <Link to={url} target="_blank">
+            <h3>{name}</h3>
+            <p>{description}</p>
+            <p>{url}</p>
+          </Link>
+        </Content>
+      </PublicationContainer>
+      {isComment ? <PostComment/> : ""}
+    </Container>
   );
 }
-
-
-
-
 
