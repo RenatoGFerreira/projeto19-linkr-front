@@ -113,7 +113,7 @@ export const TrashButton2 = styled.button`
 
 export const Modal = styled(ReactModal)`
   overlay {
-    z-index: 2;
+    z-index: 4;
   }
   width: 597px;
   height: 262px;
@@ -163,8 +163,8 @@ export const DelButton = styled.button`
 `;
 
 export const InputStyle = styled.textarea`
-  width: 503px;
-  /* height: auto; */
+  width: 90%;
+  height: auto;
   margin: 0 10px;
   white-space: pre-wrap; 
   font-family: 'Lato';
