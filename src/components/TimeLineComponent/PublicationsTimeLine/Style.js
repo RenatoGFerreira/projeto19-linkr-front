@@ -202,3 +202,9 @@ export const TextLike = styled.h3`
   text-align: center;
   margin: 5px;
 `;
+
+export const tagStyle = {
+  fontWeight: "bold",
+  color: "#FFFFFF",
+  cursor: "pointer",
+};
