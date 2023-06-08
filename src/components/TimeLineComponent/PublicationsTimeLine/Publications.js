@@ -1,7 +1,20 @@
 import {
-  PublicationContainer, Image, Content,
-  IconHeart, IconHeartfill, TextLike, LikeContainer, TextLikeHover,
-  TrashButton, TrashButton2, BackButton, DelButton, InputStyle, Buttons, Modal
+  PublicationContainer,
+  Image,
+  Content,
+  IconHeart,
+  IconHeartfill,
+  TextLike,
+  LikeContainer,
+  TextLikeHover,
+  TrashButton,
+  TrashButton2,
+  BackButton,
+  DelButton,
+  InputStyle,
+  Buttons,
+  Modal,
+  tagStyle,
 } from "./Style";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoMdTrash } from "react-icons/io";
@@ -10,6 +23,7 @@ import { ThreeDots } from "react-loader-spinner";
 import apiPosts from "../../../services/apiPost";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { Tagify } from "react-tagify";
 
 export default function Publication({ userId, id, name, image, url, likes, description, getPostList }) {
   const { auth } = useContext(AuthContext);
@@ -25,8 +39,10 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const [isLoading, setIsLoading] = useState(false);
   const textRef = useRef(null);
   const token = auth.token;
-  const user = auth.id;
   const navigate = useNavigate();
+
+  console.log(userId, id, name, image, url, likes, description, getPostList)
+  const user = auth.id;
 
   function changeLike() {
     if (liked) {
@@ -45,7 +61,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
 
   useEffect(() => {
     if (isEditing) {
-      cursor()
+      cursor();
     }
   }, [isEditing]);
 
@@ -54,12 +70,16 @@ export default function Publication({ userId, id, name, image, url, likes, descr
     const id = e.target.id;
     const body = { id: id };
     const promise = apiPosts.deletePost(body, token);
-    promise.then(() => {
-      setModalOpened(false);
-      setIsLoading(false);
-      //chamar função para atualizar página
-      getPostList();
-    })
+
+    promise
+      .then(() => {
+        setModalOpened(false);
+        setIsLoading(false);
+        window.location.reload(true);
+      })
+      .catch((err) => {
+        getPostList();
+      })
       .catch((err) => {
         console.log(err.response.data);
         setModalOpened(false);
@@ -67,10 +87,13 @@ export default function Publication({ userId, id, name, image, url, likes, descr
         alert("Não foi possível excluir o post!");
       });
   }
+
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       setIsDisabled(true);
-      const body = { id: id, description: event.target.value }
+
+      const body = { id: id, description: event.target.value };
+
       const promise = apiPosts.updatePost(body, token);
       promise.then(() => {
         setIsDisabled(false);
@@ -86,24 +109,18 @@ export default function Publication({ userId, id, name, image, url, likes, descr
     } else if (event.key === 'Escape') {
       handleBlur();
     }
-  }
-  const handleBlur = () => { setIsEditing(false) };
+  };
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
 
   return (
     <PublicationContainer>
       <Image>
         <img src={image} alt="description" />
         <LikeContainer>
-          {liked ? (
-            <IconHeartfill onClick={changeLike} />
-          ) : (
-            <IconHeart onClick={changeLike} />
-          )}
-          {likes === 1 ? (
-            <TextLike>{likes} like</TextLike>
-          ) : (
-            <TextLike>{likes} likes</TextLike>
-          )}
+          {liked ? <IconHeartfill onClick={changeLike} /> : <IconHeart onClick={changeLike} />}
+          {likes === 1 ? <TextLike>{likes} like</TextLike> : <TextLike>{likes} likes</TextLike>}
           <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
         </LikeContainer>
       </Image>
@@ -126,8 +143,11 @@ export default function Publication({ userId, id, name, image, url, likes, descr
           appElement={document.getElementById('root')}>
           <h2>Are you sure you want to delete this post?</h2>
           <Buttons>
-            <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
+            <BackButton data-test="cancel" onClick={close}>
+              No, go back
+            </BackButton>
             <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
+
               {isLoading ? (
                 <ThreeDots width={50} height={50} color="#fff" />
               ) : (
@@ -148,7 +168,13 @@ export default function Publication({ userId, id, name, image, url, likes, descr
             onKeyDown={handleKeyDown} />
         ) : (<p>{description}</p>
         )}
+
+        <h3 className="user">{user}</h3>
+        <Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
+          <p className="description">{description}</p>
+        </Tagify>
         <Link to={url} target="_blank">
+          <p className="url">{url}</p>
           <h3>{name}</h3>
           <p>{description}</p>
           <p>{url}</p>
@@ -157,8 +183,3 @@ export default function Publication({ userId, id, name, image, url, likes, descr
     </PublicationContainer>
   );
 }
-
-
-
-
-

@@ -9,7 +9,7 @@ export default function Post() {
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({ url: "", description: "" });
 
-  useEffect(getPostList, [])
+  useEffect(getPostList, []);
 
   function getPostList() {
     apiPosts.getPosts()
@@ -88,5 +88,5 @@ export default function Post() {
         ))
       }
     </Container>
-  );
-}
+  )
+    }
