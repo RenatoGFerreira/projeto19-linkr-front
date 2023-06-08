@@ -1,7 +1,7 @@
 import { DebounceInput } from "react-debounce-input";
 import { DropBox, SearchBarBox, UserColumn } from "./Style";
 import FoundUserBox from "./FoundUserBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 export default function SearchBar() {
@@ -17,7 +17,7 @@ export default function SearchBar() {
         const body = { searchKey: event };
 
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/search`, body);
+            const res = await axios.post(`http://localhost:5000/search`, body);
             setUserList(res.data);
 
         } catch (error) {
