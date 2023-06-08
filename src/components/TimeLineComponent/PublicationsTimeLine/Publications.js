@@ -41,7 +41,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const token = auth.token;
   const navigate = useNavigate();
 
-
+  console.log(userId, id, name, image, url, likes, description, getPostList)
   const user = auth.id;
 
   function changeLike() {
