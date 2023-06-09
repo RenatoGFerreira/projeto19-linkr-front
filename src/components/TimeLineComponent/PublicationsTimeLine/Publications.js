@@ -168,12 +168,10 @@ export default function Publication({ userId, id, name, image, url, likes, descr
             defaultValue={description}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown} />
-        ) : (<p>{description}</p>
+        ) : ( <Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
+        <p className="description">{description}</p>
+      </Tagify>
         )}
-
-        <Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
-          <p className="description">{description}</p>
-        </Tagify>
         <Link to={url} target="_blank">
           <UrlContainer>
             <DetailsUrl>
