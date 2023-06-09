@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import apiHashtags from "../../../services/apiHashtag";
 import { ContainerHashtag, Separator, ConteudoHashtagTrending, Hashtag, Trending } from "./Style";
-import { Link } from "react-router-dom";
 
 function TrendingHashtags() {
   const [topHashtags, setTopHashtags] = useState([]);
