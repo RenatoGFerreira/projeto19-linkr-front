@@ -45,6 +45,7 @@ export const Content = styled.div`
     line-height: 24px;
     letter-spacing: 0.1rem;
     margin: 10px 0 10px 0;
+    cursor: pointer;
   }
   p {
     color: #B7B7B7;
@@ -184,7 +185,7 @@ export const Modal = styled(ReactModal)`
     align-items: center;
   }
 `;
-export const Buttons=styled.div`
+export const Buttons = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -193,7 +194,7 @@ export const Buttons=styled.div`
 export const BackButton = styled.button`
     background: #FFFFFF;
     color: #1877F2;
-`; 
+`;
 export const DelButton = styled.button`
     background: #1877F2;
     color: #FFFFFF;
