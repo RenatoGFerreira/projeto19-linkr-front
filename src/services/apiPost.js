@@ -32,5 +32,18 @@ function updatePost(body, token) {
     return promise;
 }
 
-const apiPosts = {getPosts, createPost, deletePost, updatePost};
+function getComment(body) {
+    console.log("body do getcomment", body)
+    const promise = axios.post(`${REACT_APP_API_URL}/postsId`, body);
+    return promise;
+}
+
+function postComment(body, token) {
+    console.log(body)
+    const config = createConfig(token);
+    const promise = axios.post(`${REACT_APP_API_URL}/postId`, body, config);
+    return promise;
+}
+
+const apiPosts = {getPosts, createPost, deletePost, updatePost, getComment, postComment};
 export default apiPosts;

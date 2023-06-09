@@ -2,10 +2,9 @@ import styled from "styled-components";
 import { IoMdPaperPlane } from 'react-icons/io'; 
 
 export const BoxComment = styled.div`
-  /* z-index: -1; */
   position: absolute;
   left: 0px;
-  top: 256px;
+  top: 200px;
   width: 100%;
   height: auto;
   background: #1E1E1E;
@@ -13,9 +12,10 @@ export const BoxComment = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 50px;
-  padding: 25px;
+  padding: 20px;
+  padding-top: 85px;
   box-sizing: border-box;
+  font-family: 'Lato';
   @media (max-width: 768px) {
     border-radius: 0;
   }
@@ -27,15 +27,27 @@ export const BoxComment = styled.div`
     background: #151515;
   }
 `;
-
-export const StyledInput = styled.input`
+export const Input = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     box-sizing: border-box;
-    width: 82%;
+    width: 87%;
     height: 39px;
     background: #252525;
     border-radius: 8px; 
+    padding: 11px 14px;
+    margin-left: 12px;
+    
+`;
+
+export const StyledInput = styled.input`
+    box-sizing: border-box;
+    width: 87%;
+    /* height: 39px; */
+    background: #252525;
+    border-radius: 8px; 
     outline: none;
-    padding: 11px 15px;
     font-size: 16px;
     outline: none; 
     box-shadow: none;
@@ -51,7 +63,7 @@ export const StyledInput = styled.input`
 
 export const Plane = styled(IoMdPaperPlane)`
   font-size: 20px;
-  color: #AC0000;
+  color: white;
   align-items: center;
   cursor: pointer;
 `;
@@ -65,11 +77,24 @@ export const Comment = styled.div`
 export const CommentData = styled.div`
   display: flex;
   flex-direction: row;
+  font-size: 14px;
+  h1{
+    font-weight: 700;
+    color: #F3F3F3;
+  }
+  span{
+    color: #565656;
+  }
+  p{
+    font-weight: 400;
+    color: #ACACAC;
+  }
 `;
 
 export const Data = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 18px;
 `;
 
 export const CommentLine = styled.div`

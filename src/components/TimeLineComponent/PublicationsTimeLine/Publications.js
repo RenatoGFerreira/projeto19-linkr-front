@@ -23,6 +23,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isComment, setIsComment] = useState(false);
+  const [numComments, setNumComments] = useState(0);
   const textRef = useRef(null);
   const token = auth.token;
   const user = auth.id;
@@ -85,9 +86,8 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   }
   const handleBlur = () => { setIsEditing(false) };
 
-  const numComments = 0;
+
   function comment(){
-    console.log("Hello")
     setIsComment(!isComment)
   }
   return (
@@ -165,7 +165,12 @@ export default function Publication({ userId, id, name, image, url, likes, descr
           </Link>
         </Content>
       </PublicationContainer>
-      {isComment ? <PostComment/> : ""}
+      {isComment ? (
+        <PostComment 
+        id={id} 
+        isComment = {isComment} 
+        setNumComments={setNumComments}/>
+        ) : ""}
     </Container>
   );
 }

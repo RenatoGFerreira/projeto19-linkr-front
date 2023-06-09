@@ -12,7 +12,7 @@ export const Container = styled.div`
 `
 export const PublicationContainer = styled.div`
   width: 100%;
-  height: 276px;
+  height: 276px; 
   background: #171717;
   border-radius: 16px;
   display: flex;
@@ -21,6 +21,7 @@ export const PublicationContainer = styled.div`
   @media (max-width: 768px) {
     border-radius: 0;
   }
+  z-index:1;
 `;
 
 export const Image = styled.div`
