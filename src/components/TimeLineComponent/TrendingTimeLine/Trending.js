@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import apiHashtags from "../../../services/apiHashtag";
 import { ContainerHashtag, Separator, ConteudoHashtagTrending, Hashtag, Trending } from "./Style";
+import { Link } from "react-router-dom";
 
 function TrendingHashtags() {
   const [topHashtags, setTopHashtags] = useState([]);
 
   useEffect(() => {
-    fetchTopHashtags();
+    fetchTopHashtags(); 
+    const interval = setInterval(fetchTopHashtags, 1000); 
+
+    return () => {
+      clearInterval(interval); 
+    };
   }, []);
 
   const fetchTopHashtags = () => {
@@ -17,18 +23,21 @@ function TrendingHashtags() {
       })
       .catch((error) => {
         console.error(error);
-        // Lida com erros de forma adequada
       });
   };
 
-  return (
+  const handleHashtagClick = (hashtag) => {
+    const path = `/hashtag/${hashtag}`;
+    window.location.replace(path.replace("#", ""));
+  };
 
-      <Trending>
+  return (
+    <Trending>
       <h2>trending</h2>
       <Separator />
       <ContainerHashtag>
         {topHashtags.map((hashtag, index) => (
-          <HashtagTrendings key={index} text={hashtag} />
+          <HashtagTrendings key={index} text={hashtag} onClick={() => handleHashtagClick(hashtag)} />
         ))}
       </ContainerHashtag>
     </Trending>
@@ -36,10 +45,10 @@ function TrendingHashtags() {
 }
 
 function HashtagTrendings(props) {
-  const { text } = props;
+  const { text, onClick } = props;
   return (
     <ConteudoHashtagTrending>
-      <Hashtag>{text}</Hashtag>
+      <Hashtag onClick={onClick}>{text}</Hashtag>
     </ConteudoHashtagTrending>
   );
 }
