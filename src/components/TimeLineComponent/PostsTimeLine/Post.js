@@ -9,8 +9,6 @@ export default function Post() {
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({ url: "", description: "" });
 
-
-
   useEffect(getPostList,[])
 
   function getPostList() {
@@ -85,6 +83,9 @@ export default function Post() {
             likes={p.likes}
             description={p.description}
             getPostList={getPostList}
+            titlemeta={p.titlemeta}
+            descriptionmeta={p.descriptionmeta}
+            imagemeta={p.imagemeta}
           />
         ))
       }

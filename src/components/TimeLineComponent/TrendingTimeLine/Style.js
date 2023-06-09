@@ -34,6 +34,9 @@ export const Trending = styled.div`
       height:700px;
       margin-left:40px;
       border-radius: 16px;
+      @media (max-width: 768px) {
+         display: none;
+      }
 
       h2{
         text-align:left;
