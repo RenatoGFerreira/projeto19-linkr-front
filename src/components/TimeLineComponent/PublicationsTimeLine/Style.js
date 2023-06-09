@@ -246,3 +246,19 @@ export const tagStyle = {
   color: "#FFFFFF",
   cursor: "pointer",
 };
+
+
+export const Button = styled.button`  
+  height: 61px;
+  width: 611px;
+  left: 241px;
+  top: 481px;
+  border-radius: 16px;
+  background-color:#1877F2;
+  margin-left:0px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  color:white;
+  margin-left:45px;
+  margin-bottom:20px;
+  `
