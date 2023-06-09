@@ -3,6 +3,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import apiPosts from "../../../services/apiPost";
 import Publication from "../PublicationsTimeLine/Publications";
 import { Container, PostContainer, Image, Form, Button } from "./Style";
+import InfiniteScroll from "react-infinite-scroller";
 
 export default function Post() {
   const { auth } = useContext(AuthContext);
@@ -10,17 +11,22 @@ export default function Post() {
   const [form, setForm] = useState({ url: "", description: "" });
   const [showNewPostsButton, setShowNewPostsButton] = useState(false);
   const [newPostsCount, setNewPostsCount] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getPostList();
   }, []);
 
-  function getPostList() {
+  function getPostList(page) {
     apiPosts
-      .getPosts()
+      .getPosts(page)
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data);
+        const newPosts = res.data;
+        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+        setCurrentPage((prevPage) => prevPage + 1);
+        setHasMore(newPosts.length > 0);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -41,9 +47,9 @@ export default function Post() {
       .then((res) => {
         setForm({ url: "", description: "" });
         console.log(res.data);
-        getPostList();
+        getPostList(1);
         setShowNewPostsButton(true);
-        setNewPostsCount(newPostsCount + 1); // Incrementa a quantidade de novos posts
+        setNewPostsCount(newPostsCount + 1);
       })
       .catch((err) => {
         alert(err.response.data.message);
@@ -52,8 +58,8 @@ export default function Post() {
 
   function handleShowNewPosts() {
     setShowNewPostsButton(false);
-    setNewPostsCount(0); // Reinicia a quantidade de novos posts
-    getPostList();
+    setNewPostsCount(0);
+    getPostList(1);
   }
 
   return (
@@ -86,22 +92,30 @@ export default function Post() {
       </PostContainer>
       {showNewPostsButton && (
         <Button onClick={handleShowNewPosts}>
-          {newPostsCount}  {newPostsCount === 1 ? "new post" : "new posts"}, load more!
+          {newPostsCount} {newPostsCount === 1 ? "new post" : "new posts"}, load more!
         </Button>
       )}
-      {posts.map((p) => (
+      <InfiniteScroll
+        pageStart={currentPage}
+        loadMore={getPostList}
+        hasMore={hasMore}
+        loader={<div className="loader" key={0}>Loading...</div>}
+        useWindow={false}
+        >
+        {posts.map((p) => (
         <Publication
-          key={p.id}
-          userId={p.userId}
-          id={p.id}
-          name={p.name}
-          image={p.image}
-          url={p.url}
-          likes={p.likes}
-          description={p.description}
-          getPostList={getPostList}
-        />
-      ))}
-    </Container>
-  );
-}
+                 key={p.id}
+                 userId={p.userId}
+                 id={p.id}
+                 name={p.name}
+                 image={p.image}
+                 url={p.url}
+                 likes={p.likes}
+                 description={p.description}
+                 getPostList={getPostList}
+               />
+        ))}
+        </InfiniteScroll>
+        </Container>
+        );
+        }
