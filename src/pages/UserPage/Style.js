@@ -18,11 +18,16 @@ export const Container = styled.div`
 `;
 
 export const TimeContainer = styled.div`
-     width: 94%;
-     height: 100vh;
-     position: relative;
-     margin-left: 25px;
-     display: flex;
-     flex-direction: column;
-     justify-content: space-between;     
+  width: 94%;
+  height: 100vh;
+  position: relative;
+  margin-left: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 `;
+
+export const ConteudoHashtag = styled.div`
+ display:flex;
+`

@@ -43,11 +43,10 @@ export const Trending = styled.div`
         margin-top:0px;
         margin-bottom:5px;
       }
-      
-      `
+`;
 
 
-export const HashtagTrending= styled.div`
+export const HashtagTrending = styled.div`
       display:flex;
     
 `

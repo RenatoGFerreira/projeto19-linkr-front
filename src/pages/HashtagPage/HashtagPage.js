@@ -40,32 +40,33 @@ export default function HashtagPage() {
   return (
     <ScreenContainer>
       <NavBar />
-    
+
       <Container>
-      <h2>{hashtag}</h2>
+        <h2>{hashtag}</h2>
         <ConteudoHashtag>
-        <TimeContainer>
-          {posts ? (
-            posts.map((post) => (
-              <Publication
-                key={post.id}
-                id={post.id}
-                user={post.user}
-                name={post.name}
-                image={post.image}
-                url={post.url}
-                likes={post.likes}
-                description={post.description}
-              />
-            ))
-          ) : (
-            <></>
-          )}
-        </TimeContainer>
-        <TrendingHashtags/>
+          <TimeContainer>
+            {posts ? (
+              posts.map((post) => (
+                <Publication
+                  key={post.id}
+                  id={post.id}
+                  user={post.user}
+                  name={post.name}
+                  image={post.image}
+                  url={post.url}
+                  likes={post.likes}
+                  description={post.description}
+                  userId={post.userId}
+                />
+              ))
+            ) : (
+              <></>
+            )}
+          </TimeContainer>
+          <TrendingHashtags />
 
         </ConteudoHashtag>
-       
+
       </Container>
     </ScreenContainer>
   );

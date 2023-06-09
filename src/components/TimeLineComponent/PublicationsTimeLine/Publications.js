@@ -42,8 +42,6 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const textRef = useRef(null);
   const token = auth.token;
   const navigate = useNavigate();
-
-  console.log(userId, id, name, image, url, likes, description, getPostList)
   const user = auth.id;
 
   function changeLike() {
@@ -168,9 +166,9 @@ export default function Publication({ userId, id, name, image, url, likes, descr
             defaultValue={description}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown} />
-        ) : ( <Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
-        <p className="description">{description}</p>
-      </Tagify>
+        ) : (<Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
+          <p className="description">{description}</p>
+        </Tagify>
         )}
         <Link to={url} target="_blank">
           <UrlContainer>
@@ -179,7 +177,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
               <p>{descriptionmeta}</p>
               <p className="url">{url}</p>
             </DetailsUrl>
-            <img src={imagemeta}/>
+            <img src={imagemeta} />
           </UrlContainer>
         </Link>
       </Content>
