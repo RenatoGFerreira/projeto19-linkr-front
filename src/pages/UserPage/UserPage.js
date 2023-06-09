@@ -19,7 +19,7 @@ export default function UserPage() {
 
     async function getUserPosts() {
         try {
-            const res = await axios.get(`http://localhost:5000/user/${id}`);
+            const res = await axios.get(`https://linkrapi-bbrm.onrender.com/user/${id}`);
             setUserPosts(res.data);
             console.log(res.data);
             setUser(res.data[0].name);

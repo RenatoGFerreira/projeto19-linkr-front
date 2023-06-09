@@ -17,7 +17,7 @@ export default function SearchBar() {
         const body = { searchKey: event };
 
         try {
-            const res = await axios.post(`http://localhost:5000/search`, body);
+            const res = await axios.post(`https://linkrapi-bbrm.onrender.com`, body);
             setUserList(res.data);
 
         } catch (error) {
