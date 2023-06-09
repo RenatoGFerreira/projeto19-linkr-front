@@ -13,10 +13,11 @@ export default function Post() {
   const [newPostsCount, setNewPostsCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-
+  
   useEffect(() => {
     getPostList();
   }, []);
+
 
   function getPostList(page) {
     apiPosts
@@ -90,32 +91,24 @@ export default function Post() {
           </form>
         </Form>
       </PostContainer>
-      {showNewPostsButton && (
-        <Button onClick={handleShowNewPosts}>
-          {newPostsCount} {newPostsCount === 1 ? "new post" : "new posts"}, load more!
-        </Button>
-      )}
-      <InfiniteScroll
-        pageStart={currentPage}
-        loadMore={getPostList}
-        hasMore={hasMore}
-        loader={<div className="loader" key={0}>Loading...</div>}
-        useWindow={false}
-        >
-        {posts.map((p) => (
-        <Publication
-                 key={p.id}
-                 userId={p.userId}
-                 id={p.id}
-                 name={p.name}
-                 image={p.image}
-                 url={p.url}
-                 likes={p.likes}
-                 description={p.description}
-                 getPostList={getPostList}
-               />
-        ))}
-        </InfiniteScroll>
-        </Container>
-        );
-        }
+      {
+        posts.map(p => (
+          <Publication
+            key={p.id}
+            userId={p.userId}
+            id={p.id}
+            name={p.name}
+            image={p.image}
+            url={p.url}
+            likes={p.likes}
+            description={p.description}
+            getPostList={getPostList}
+            titlemeta={p.titlemeta}
+            descriptionmeta={p.descriptionmeta}
+            imagemeta={p.imagemeta}
+          />
+        ))
+      }
+    </Container>
+  )
+    }

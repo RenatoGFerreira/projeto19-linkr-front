@@ -15,6 +15,8 @@ import {
   Buttons,
   Modal,
   tagStyle,
+  UrlContainer,
+  DetailsUrl,
 } from "./Style";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoMdTrash } from "react-icons/io";
@@ -25,7 +27,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Tagify } from "react-tagify";
 
-export default function Publication({ userId, id, name, image, url, likes, description, getPostList }) {
+export default function Publication({ userId, id, name, image, url, likes, description, getPostList, titlemeta, descriptionmeta, imagemeta }) {
   const { auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
@@ -169,15 +171,18 @@ export default function Publication({ userId, id, name, image, url, likes, descr
         ) : (<p>{description}</p>
         )}
 
-        <h3 className="user">{user}</h3>
         <Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
           <p className="description">{description}</p>
         </Tagify>
         <Link to={url} target="_blank">
-          <p className="url">{url}</p>
-          <h3>{name}</h3>
-          <p>{description}</p>
-          <p>{url}</p>
+          <UrlContainer>
+            <DetailsUrl>
+              <h3>{titlemeta}</h3>
+              <p>{descriptionmeta}</p>
+              <p className="url">{url}</p>
+            </DetailsUrl>
+            <img src={imagemeta}/>
+          </UrlContainer>
         </Link>
       </Content>
     </PublicationContainer>
