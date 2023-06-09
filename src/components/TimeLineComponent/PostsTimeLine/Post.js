@@ -2,25 +2,36 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import apiPosts from "../../../services/apiPost";
 import Publication from "../PublicationsTimeLine/Publications";
-import { Container, PostContainer, Image, Form } from "./Style";
+import { Container, PostContainer, Image, Form, Button } from "./Style";
+import InfiniteScroll from "react-infinite-scroller";
 
 export default function Post() {
   const { auth } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({ url: "", description: "" });
+  const [showNewPostsButton, setShowNewPostsButton] = useState(false);
+  const [newPostsCount, setNewPostsCount] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(getPostList, []);
+  useEffect(() => {
+    getPostList();
+  }, []);
 
-  function getPostList() {
-    apiPosts.getPosts()
-      .then(res => {
+  function getPostList(page) {
+    apiPosts
+      .getPosts(page)
+      .then((res) => {
         console.log(res.data);
-        setPosts(res.data)
+        const newPosts = res.data;
+        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+        setCurrentPage((prevPage) => prevPage + 1);
+        setHasMore(newPosts.length > 0);
       })
-      .catch(err => {
-        console.log(err.response.data)
-        alert(err.response.data.message)
-      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert(err.response.data.message);
+      });
   }
 
   function handleForm(e) {
@@ -28,18 +39,27 @@ export default function Post() {
   }
 
   function handleCreate(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const body = { ...form }
-    apiPosts.createPost(auth.token, body)
-      .then(res => {
-        setForm({ url: "", description: "" })
-        console.log(res.data)
-        getPostList()
+    const body = { ...form };
+    apiPosts
+      .createPost(auth.token, body)
+      .then((res) => {
+        setForm({ url: "", description: "" });
+        console.log(res.data);
+        getPostList(1);
+        setShowNewPostsButton(true);
+        setNewPostsCount(newPostsCount + 1);
       })
-      .catch(err => {
-        alert(err.response.data.message)
-      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
+  }
+
+  function handleShowNewPosts() {
+    setShowNewPostsButton(false);
+    setNewPostsCount(0);
+    getPostList(1);
   }
 
   return (
@@ -56,37 +76,46 @@ export default function Post() {
               type="url"
               placeholder="http://..."
               required
-              // disabled={isLoading}
               value={form.url}
               onChange={handleForm}
             />
             <textarea
               name="description"
               placeholder="Awesome article about #javascript"
-              // disabled={isLoading}
               value={form.description}
               onChange={handleForm}
             ></textarea>
 
-            <button type="submit" disabled={false}>Publish</button>
+            <button type="submit">Publish</button>
           </form>
         </Form>
       </PostContainer>
-      {
-        posts.map(p => (
-          <Publication
-            key={p.id}
-            userId={p.userId}
-            id={p.id}
-            name={p.name}
-            image={p.image}
-            url={p.url}
-            likes={p.likes}
-            description={p.description}
-            getPostList={getPostList}
-          />
-        ))
-      }
-    </Container>
-  )
-    }
+      {showNewPostsButton && (
+        <Button onClick={handleShowNewPosts}>
+          {newPostsCount} {newPostsCount === 1 ? "new post" : "new posts"}, load more!
+        </Button>
+      )}
+      <InfiniteScroll
+        pageStart={currentPage}
+        loadMore={getPostList}
+        hasMore={hasMore}
+        loader={<div className="loader" key={0}>Loading...</div>}
+        useWindow={false}
+        >
+        {posts.map((p) => (
+        <Publication
+                 key={p.id}
+                 userId={p.userId}
+                 id={p.id}
+                 name={p.name}
+                 image={p.image}
+                 url={p.url}
+                 likes={p.likes}
+                 description={p.description}
+                 getPostList={getPostList}
+               />
+        ))}
+        </InfiniteScroll>
+        </Container>
+        );
+        }
