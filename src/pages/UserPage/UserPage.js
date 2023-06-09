@@ -3,8 +3,9 @@ import NavBar from "../../components/navBar/NavBar";
 import ScreenContainer from "../../components/ScreenContainer";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Container, TimeContainer } from "./Style";
+import { Container, ConteudoHashtag, TimeContainer } from "./Style";
 import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/Publications";
+import TrendingHashtags from "../../components/TimeLineComponent/TrendingTimeLine/Trending";
 
 export default function UserPage() {
 
@@ -18,9 +19,10 @@ export default function UserPage() {
 
     async function getUserPosts() {
         try {
-            const res = await axios.get(`http://localhost:5000/user/${id}`);
+            const res = await axios.get(`https://linkrapi-bbrm.onrender.com/user/${id}`);
             setUserPosts(res.data);
-            setUser(res.data[0].username);
+            console.log(res.data);
+            setUser(res.data[0].name);
 
         } catch (error) {
             console.log(error.message);
@@ -32,15 +34,24 @@ export default function UserPage() {
             <NavBar />
             <Container>
                 <h2>{user}'s posts</h2>
-                <TimeContainer>
-                    {userPosts.map(p => <Publication
-                        key={p.id}
-                        name={p.username}
-                        image={p.image}
-                        description={p.description}
-                        userId={p.userId}
-                        url={p.url} />)}
-                </TimeContainer>
+                <ConteudoHashtag>
+                    <TimeContainer>
+                        {userPosts.map(p => <Publication
+                            key={p.id}
+                            userId={p.userId}
+                            id={p.id}
+                            name={p.name}
+                            image={p.image}
+                            url={p.url}
+                            likes={p.likes}
+                            description={p.description}
+                            titlemeta={p.titlemeta}
+                            descriptionmeta={p.descriptionmeta}
+                            imagemeta={p.imagemeta} />
+                        )}
+                    </TimeContainer>
+                    <TrendingHashtags />
+                </ConteudoHashtag>
             </Container>
         </ScreenContainer>
     );

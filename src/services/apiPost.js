@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REACT_APP_API_URL = "http://localhost:5000";
+const REACT_APP_API_URL = "https://linkrapi-bbrm.onrender.com";
 
 function createConfig(token) {
   return {
@@ -32,29 +32,29 @@ function getPostsByHashtag(hashtag) {
   return axios.get(`${REACT_APP_API_URL}/hashtag/${hashtag}`);
 }
 function getPostCount() {
-    return axios.get(`${process.env.REACT_APP_API_URL}/post/count`)
-      .then((response) => {
-        return response.data.postCount;
-      })
-      .catch((error) => {
-        throw new Error("An error occurred while fetching the post count.");
-      });
-  }
-  
-  const apiPosts = {
-    getPosts,
-    createPost,
-    deletePost,
-    updatePost,
-    getPostsByHashtag,
-    getPostCount,
-  };
-  
-  export default apiPosts;  
-  
-  
-  
-  
-  
-  
+  return axios.get(`${process.env.REACT_APP_API_URL}/post/count`)
+    .then((response) => {
+      return response.data.postCount;
+    })
+    .catch((error) => {
+      throw new Error("An error occurred while fetching the post count.");
+    });
+}
+
+const apiPosts = {
+  getPosts,
+  createPost,
+  deletePost,
+  updatePost,
+  getPostsByHashtag,
+  getPostCount,
+};
+
+export default apiPosts;
+
+
+
+
+
+
 

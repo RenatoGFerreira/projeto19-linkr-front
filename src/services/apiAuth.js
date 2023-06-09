@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = "https://linkrapi-bbrm.onrender.com"
 
 function createConfig(token) {
     return {
@@ -21,7 +21,7 @@ function signin(body) {
     return promise
 }
 
-function signOut(body){
+function signOut(body) {
     const promise = axios.post(`${BASE_URL}/sign-out`, createConfig(body))
     return promise
 }
