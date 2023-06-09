@@ -14,9 +14,7 @@ export default function Post() {
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   
-  useEffect(() => {
-    getPostList();
-  }, []);
+  useEffect(getPostList, []);
 
 
   function getPostList(page) {
@@ -48,7 +46,7 @@ export default function Post() {
       .then((res) => {
         setForm({ url: "", description: "" });
         console.log(res.data);
-        getPostList(1);
+        getPostList();
         setShowNewPostsButton(true);
         setNewPostsCount(newPostsCount + 1);
       })
@@ -60,7 +58,8 @@ export default function Post() {
   function handleShowNewPosts() {
     setShowNewPostsButton(false);
     setNewPostsCount(0);
-    getPostList(1);
+    getPostList();
+    window.location.reload();
   }
 
   return (
@@ -91,6 +90,13 @@ export default function Post() {
           </form>
         </Form>
       </PostContainer>
+
+      {showNewPostsButton && (
+        <Button onClick={handleShowNewPosts}>
+          {newPostsCount} {newPostsCount === 1 ? "new post" : "new posts"}, load more!
+        </Button>
+      )}
+
       {
         posts.map(p => (
           <Publication
