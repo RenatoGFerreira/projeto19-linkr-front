@@ -54,7 +54,8 @@ function postComment(body, token) {
     return promise;
 }
 
-const apiPosts = {getPosts, createPost, deletePost, updatePost, getComment, postComment};
+const apiPosts = {getPosts, createPost, deletePost, updatePost, getComment, postComment, getPostsByHashtag,
+    getPostCount};
 export default apiPosts;
 
 
