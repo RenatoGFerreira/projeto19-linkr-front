@@ -14,7 +14,7 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-  z-index: 1;
+  z-index: 2;
   h2 {
     font-family: "Passion One", cursive;
     color: #fff;

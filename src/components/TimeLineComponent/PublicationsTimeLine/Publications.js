@@ -17,6 +17,7 @@ import {
   tagStyle,
   UrlContainer,
   DetailsUrl,
+  Container
 } from "./Style";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoMdTrash } from "react-icons/io";
@@ -26,6 +27,7 @@ import apiPosts from "../../../services/apiPost";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Tagify } from "react-tagify";
+import PostComment from "../CommentTimeLine/PostComment";
 
 export default function Publication({ userId, id, name, image, url, likes, description, getPostList, titlemeta, descriptionmeta, imagemeta }) {
   const { auth } = useContext(AuthContext);
@@ -39,6 +41,8 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const [isEditing, setIsEditing] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isComment, setIsComment] = useState(false);
+  const [numComments, setNumComments] = useState(0);
   const textRef = useRef(null);
   const token = auth.token;
   const navigate = useNavigate();
@@ -75,10 +79,9 @@ export default function Publication({ userId, id, name, image, url, likes, descr
       .then(() => {
         setModalOpened(false);
         setIsLoading(false);
-        window.location.reload(true);
+        getPostList(); window.location.reload(true);
       })
       .catch((err) => {
-        getPostList();
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -97,8 +100,7 @@ export default function Publication({ userId, id, name, image, url, likes, descr
       const promise = apiPosts.updatePost(body, token);
       promise.then(() => {
         setIsDisabled(false);
-        //chamar função para atualizar pagina
-        getPostList();
+        getPostList(); //chamar função para atualizar pagina
       })
         .catch((err) => {
           console.log(err.response.data);
@@ -114,7 +116,12 @@ export default function Publication({ userId, id, name, image, url, likes, descr
     setIsEditing(false);
   };
 
+  function comment(){ 
+    setIsComment(!isComment)
+  }
+
   return (
+  <Container>
     <PublicationContainer>
       <Image>
         <img src={image} alt="description" />
@@ -122,6 +129,12 @@ export default function Publication({ userId, id, name, image, url, likes, descr
           {liked ? <IconHeartfill onClick={changeLike} /> : <IconHeart onClick={changeLike} />}
           {likes === 1 ? <TextLike>{likes} like</TextLike> : <TextLike>{likes} likes</TextLike>}
           <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
+        </LikeContainer>
+        <LikeContainer>
+            <IconComment onClick={comment} />
+            <TextLike>
+                {numComments !== 0 ? (`${numComments} comments`):( `0 comment` )}
+            </TextLike>
         </LikeContainer>
       </Image>
       <Content>
@@ -182,5 +195,13 @@ export default function Publication({ userId, id, name, image, url, likes, descr
         </Link>
       </Content>
     </PublicationContainer>
+    {isComment ? (
+      <PostComment 
+      id={id} 
+      isComment = {isComment} 
+      setNumComments={setNumComments}/>
+      ) : ""}
+  </Container>
   );
 }
+
