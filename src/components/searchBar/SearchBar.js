@@ -1,7 +1,7 @@
 import { DebounceInput } from "react-debounce-input";
 import { DropBox, SearchBarBox, UserColumn } from "./Style";
 import FoundUserBox from "./FoundUserBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 export default function SearchBar() {
@@ -17,14 +17,14 @@ export default function SearchBar() {
         const body = { searchKey: event };
 
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/search`, body);
+            const res = await axios.post(`https://linkrapi-bbrm.onrender.com`, body);
             setUserList(res.data);
 
         } catch (error) {
             console.log(error.response.data);
         }
 
-    };
+    }
 
     return (
         <SearchBarBox>
@@ -44,7 +44,9 @@ export default function SearchBar() {
                     {userList.map(l => <FoundUserBox
                         key={l.id}
                         username={l.username}
-                        image={l.image} />)}
+                        image={l.image}
+                        userId={l.id}
+                    />)}
                 </UserColumn>
             </DropBox>
         </SearchBarBox>

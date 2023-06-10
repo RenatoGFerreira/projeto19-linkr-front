@@ -1,16 +1,35 @@
-import { PublicationContainer, Image, Content, 
-  IconHeart, IconHeartfill, TextLike, LikeContainer,TextLikeHover, IconComment,
-  TrashButton, TrashButton2, BackButton, DelButton, InputStyle, Buttons, Modal, Container } from "./Style";
+import {
+  PublicationContainer,
+  Image,
+  Content,
+  IconHeart,
+  IconHeartfill,
+  TextLike,
+  LikeContainer,
+  TextLikeHover,
+  TrashButton,
+  TrashButton2,
+  BackButton,
+  DelButton,
+  InputStyle,
+  Buttons,
+  Modal,
+  tagStyle,
+  UrlContainer,
+  DetailsUrl,
+  Container
+} from "./Style";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { TiPencil } from "react-icons/ti";
 import { ThreeDots } from "react-loader-spinner";
 import apiPosts from "../../../services/apiPost";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { Tagify } from "react-tagify";
 import PostComment from "../CommentTimeLine/PostComment";
 
-export default function Publication({ userId, id, name, image, url, likes, description, getPostList }) {
+export default function Publication({ userId, id, name, image, url, likes, description, getPostList, titlemeta, descriptionmeta, imagemeta }) {
   const { auth } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [likesAmount, setLikesAmount] = useState(likes);
@@ -26,7 +45,9 @@ export default function Publication({ userId, id, name, image, url, likes, descr
   const [numComments, setNumComments] = useState(0);
   const textRef = useRef(null);
   const token = auth.token;
+  const navigate = useNavigate();
   const user = auth.id;
+
   function changeLike() {
     if (liked) {
       setLiked(!liked);
@@ -39,139 +60,148 @@ export default function Publication({ userId, id, name, image, url, likes, descr
 
   const open = () => { setModalOpened(true) };
   const close = () => { setModalOpened(false) };
-  const edit = () => { setIsEditing(!isEditing)};
-  function cursor() { textRef.current.focus()};
+  const edit = () => { setIsEditing(!isEditing) };
+  function cursor() { textRef.current.focus() };
 
-  useEffect(() => { 
+  useEffect(() => {
     if (isEditing) {
-      cursor()
+      cursor();
     }
   }, [isEditing]);
 
   function deleteIt(e) {
     setIsLoading(true);
     const id = e.target.id;
-    const body = {id: id};
+    const body = { id: id };
     const promise = apiPosts.deletePost(body, token);
-    promise.then(() => {
+
+    promise
+      .then(() => {
         setModalOpened(false);
         setIsLoading(false);
-        getPostList(); //chamar função para atualizar página
-    })
-    .catch((err) => {
+        getPostList(); window.location.reload(true);
+      })
+      .catch((err) => {
+      })
+      .catch((err) => {
         console.log(err.response.data);
         setModalOpened(false);
         setIsLoading(false);
         alert("Não foi possível excluir o post!");
-    }); 
+      });
   }
+
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       setIsDisabled(true);
-      const body = {id: id, description: event.target.value}
+
+      const body = { id: id, description: event.target.value };
+
       const promise = apiPosts.updatePost(body, token);
       promise.then(() => {
         setIsDisabled(false);
         getPostList(); //chamar função para atualizar pagina
       })
-      .catch((err) => {
-        console.log(err.response.data);
-        alert("Não foi possível salvar as alterações!");
-        setIsDisabled(false);
-      }); 
-      
+        .catch((err) => {
+          console.log(err.response.data);
+          alert("Não foi possível salvar as alterações!");
+          setIsDisabled(false);
+        });
+
     } else if (event.key === 'Escape') {
       handleBlur();
     }
-  }
-  const handleBlur = () => { setIsEditing(false) };
+  };
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
 
-
-  function comment(){
+  function comment(){ 
     setIsComment(!isComment)
   }
+
   return (
-    <Container>
-      <PublicationContainer>
-        <Image>
-          <img src={image} alt="description"/>
-          <LikeContainer>
-            {liked ? (
-              <IconHeartfill onClick={changeLike} />
-            ) : (
-              <IconHeart onClick={changeLike} />
-            )}
-            {likes === 1?(
-              <TextLike>{likes} like</TextLike>
-            ):(
-              <TextLike>{likes} likes</TextLike>
-            )}
-            <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
-          </LikeContainer>
-          
-          <LikeContainer>
+  <Container>
+    <PublicationContainer>
+      <Image>
+        <img src={image} alt="description" />
+        <LikeContainer>
+          {liked ? <IconHeartfill onClick={changeLike} /> : <IconHeart onClick={changeLike} />}
+          {likes === 1 ? <TextLike>{likes} like</TextLike> : <TextLike>{likes} likes</TextLike>}
+          <TextLikeHover>Fulano, cicrano e outras 20 pessoas</TextLikeHover>
+        </LikeContainer>
+        <LikeContainer>
             <IconComment onClick={comment} />
             <TextLike>
                 {numComments !== 0 ? (`${numComments} comments`):( `0 comment` )}
             </TextLike>
-          </LikeContainer>
-
-        </Image>
-        <Content>
-          {(userId !== user) ? (
-            ""
-          ) : (
-              <>
-              <TrashButton data-test="edit-btn" onClick={edit}>
-                <TiPencil size={20} color="white" />
-              </TrashButton>
-              <TrashButton2 data-test="delete-btn" onClick={open}>
-                <IoMdTrash size={20} color="white" />
-              </TrashButton2> 
-              </>
-          )}
-          <Modal 
-          isOpen={modalOpened} 
+        </LikeContainer>
+      </Image>
+      <Content>
+        {(userId !== user) ? (
+          ""
+        ) : (
+          <>
+            <TrashButton data-test="edit-btn" onClick={edit}>
+              <TiPencil size={20} color="white" />
+            </TrashButton>
+            <TrashButton2 data-test="delete-btn" onClick={open}>
+              <IoMdTrash size={20} color="white" />
+            </TrashButton2>
+          </>
+        )}
+        <Modal
+          isOpen={modalOpened}
           onRequestClose={close}
           appElement={document.getElementById('root')}>
-            <h2>Are you sure you want to delete this post?</h2>
-            <Buttons>
-              <BackButton data-test="cancel" onClick={close}>No, go back</BackButton>
-              <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
-                  {isLoading ? (
-                    <ThreeDots width={50} height={50} color="#fff" />
-                  ) : (
-                    "Yes, delete it"
-                  )}
-              </DelButton>
-            </Buttons>
-          </Modal> 
-          <h3>{name}</h3>
-          {isEditing ? (
-                <InputStyle 
-                data-test="edit-input"
-                type="text" 
-                ref={textRef} 
-                disabled={isDisabled}
-                defaultValue={description} 
-                onBlur={handleBlur} 
-                onKeyDown={handleKeyDown} /> 
-                ) : (  <p>{description}</p>
-          )}
-          <Link to={url} target="_blank">
-            <h3>{name}</h3>
-            <p>{description}</p>
-            <p>{url}</p>
-          </Link>
-        </Content>
-      </PublicationContainer>
-      {isComment ? (
-        <PostComment 
-        id={id} 
-        isComment = {isComment} 
-        setNumComments={setNumComments}/>
-        ) : ""}
-    </Container>
+          <h2>Are you sure you want to delete this post?</h2>
+          <Buttons>
+            <BackButton data-test="cancel" onClick={close}>
+              No, go back
+            </BackButton>
+            <DelButton data-test="confirm" id={id} onClick={(event) => deleteIt(event)}>
+
+              {isLoading ? (
+                <ThreeDots width={50} height={50} color="#fff" />
+              ) : (
+                "Yes, delete it"
+              )}
+            </DelButton>
+          </Buttons>
+        </Modal>
+        <h3 onClick={() => navigate(`/user/${userId}`)}>{name}</h3>
+        {isEditing ? (
+          <InputStyle
+            data-test="edit-input"
+            type="text"
+            ref={textRef}
+            disabled={isDisabled}
+            defaultValue={description}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown} />
+        ) : (<Tagify onClick={(tag) => navigate(`/hashtag/${tag}`)} tagStyle={tagStyle}>
+          <p className="description">{description}</p>
+        </Tagify>
+        )}
+        <Link to={url} target="_blank">
+          <UrlContainer>
+            <DetailsUrl>
+              <h3>{titlemeta}</h3>
+              <p>{descriptionmeta}</p>
+              <p className="url">{url}</p>
+            </DetailsUrl>
+            <img src={imagemeta} />
+          </UrlContainer>
+        </Link>
+      </Content>
+    </PublicationContainer>
+    {isComment ? (
+      <PostComment 
+      id={id} 
+      isComment = {isComment} 
+      setNumComments={setNumComments}/>
+      ) : ""}
+  </Container>
   );
 }
 

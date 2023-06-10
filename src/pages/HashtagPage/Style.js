@@ -6,6 +6,7 @@ export const Container = styled.div`
   height: 100% auto;
   position: relative;
   margin-top: 72px;
+
   h2{
     font-family: "Oswald", cursive;
     color: #fff;
@@ -17,15 +18,17 @@ export const Container = styled.div`
     margin: 40px 0 25px 20px;
   }
 `
-
 export const TimeContainer = styled.div`
-     width: 94%;
-     height: 100vh;
-     position: relative;
-     margin-left: 25px;
-     display: flex;
-     justify-content: space-between;    
-     `
+  width: 94%;
+  height: 100vh;
+  position: relative;
+  margin-left: 25px;
+  display: flex;
+  flex-direction: column; /* Alteração: Define a direção como coluna */
+  align-items: center; /* Alteração: Centraliza os itens horizontalmente */
+  gap: 20px; /* Alteração: Adiciona espaçamento vertical entre os itens */
+`;
+
 
 export const Trending = styled.div`
       margin-top:0px;
@@ -40,11 +43,10 @@ export const Trending = styled.div`
         margin-top:0px;
         margin-bottom:5px;
       }
-      
-      `
+`;
 
 
-export const HashtagTrending= styled.div`
+export const HashtagTrending = styled.div`
       display:flex;
     
 `
@@ -78,6 +80,6 @@ export const Separator = styled.div`
 `;
 
 
-export const ConteudoHashtagTrending = styled.div`
+export const ConteudoHashtag = styled.div`
  display:flex;
 `

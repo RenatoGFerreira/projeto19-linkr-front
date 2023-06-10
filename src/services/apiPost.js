@@ -1,35 +1,44 @@
-import axios from "axios"
+import axios from "axios";
 
-const REACT_APP_API_URL = "http://localhost:5000"
+const REACT_APP_API_URL = "https://linkrapi-bbrm.onrender.com";
 
 function createConfig(token) {
-    return {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 }
 
-function getPosts(){
-    const promise = axios.get(`${REACT_APP_API_URL}/post`)
-    return promise
+function getPosts() {
+  return axios.get(`${REACT_APP_API_URL}/post`);
 }
 
-function createPost(token, body){
-    const promise = axios.post(`${REACT_APP_API_URL}/post`, body, createConfig(token))
-    return promise
+function createPost(token, body) {
+  return axios.post(`${REACT_APP_API_URL}/post`, body, createConfig(token));
 }
 
 function deletePost(body, token) {
-    const config = createConfig(token);
-    config.data = body;
-    const promise = axios.delete(`${REACT_APP_API_URL}/post`, config);
-    return promise;
+  const config = createConfig(token);
+  config.data = body;
+  return axios.delete(`${REACT_APP_API_URL}/post`, config);
 }
 
 function updatePost(body, token) {
-    const promise = axios.put(`${REACT_APP_API_URL}/post`, body, createConfig(token));
-    return promise;
+  return axios.put(`${REACT_APP_API_URL}/post`, body, createConfig(token));
+}
+
+function getPostsByHashtag(hashtag) {
+  return axios.get(`${REACT_APP_API_URL}/hashtag/${hashtag}`);
+}
+function getPostCount() {
+  return axios.get(`${process.env.REACT_APP_API_URL}/post/count`)
+    .then((response) => {
+      return response.data.postCount;
+    })
+    .catch((error) => {
+      throw new Error("An error occurred while fetching the post count.");
+    });
 }
 
 function getComment(body) {
@@ -47,3 +56,10 @@ function postComment(body, token) {
 
 const apiPosts = {getPosts, createPost, deletePost, updatePost, getComment, postComment};
 export default apiPosts;
+
+
+
+
+
+
+

@@ -12,7 +12,7 @@ export const Container = styled.div`
 `
 export const PublicationContainer = styled.div`
   width: 100%;
-  height: 276px; 
+  height: 276px auto;
   background: #171717;
   border-radius: 16px;
   display: flex;
@@ -54,6 +54,7 @@ export const Content = styled.div`
     line-height: 24px;
     letter-spacing: 0.1rem;
     margin: 10px 0 10px 0;
+    cursor: pointer;
   }
   p {
     color: #B7B7B7;
@@ -69,6 +70,43 @@ export const Content = styled.div`
     text-decoration: none;
   }
 `;
+
+export const UrlContainer = styled.div`
+  width: 98%;
+  height: 155px auto;
+  box-sizing: border-box;
+  border: 1px solid #4D4D4D;
+  border-radius: 11px;
+  display: flex;
+  margin: 5px 0 10px 0 ;
+  img{
+    width: 153px;
+    height: 155px auto;
+    border-radius: 0px 12px 13px 0px; 
+  }
+`
+
+export const DetailsUrl = styled.div`
+  width: 84%;
+  margin-left: 5px;
+  h3{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #CECECE;
+  }
+  p{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #9B9595;
+    margin: 10px 0 15px 0;
+  }
+`
 
 export const LikeContainer = styled.div`
 display: flex;
@@ -157,7 +195,7 @@ export const Modal = styled(ReactModal)`
     align-items: center;
   }
 `;
-export const Buttons=styled.div`
+export const Buttons = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -166,7 +204,7 @@ export const Buttons=styled.div`
 export const BackButton = styled.button`
     background: #FFFFFF;
     color: #1877F2;
-`; 
+`;
 export const DelButton = styled.button`
     background: #1877F2;
     color: #FFFFFF;
@@ -217,3 +255,25 @@ export const TextLike = styled.h3`
   text-align: center;
   margin: 5px;
 `;
+
+export const tagStyle = {
+  fontWeight: "bold",
+  color: "#FFFFFF",
+  cursor: "pointer",
+};
+
+
+export const Button = styled.button`  
+  height: 61px;
+  width: 611px;
+  left: 241px;
+  top: 481px;
+  border-radius: 16px;
+  background-color:#1877F2;
+  margin-left:0px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  color:white;
+  margin-left:45px;
+  margin-bottom:20px;
+  `

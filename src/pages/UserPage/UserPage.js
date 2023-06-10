@@ -1,31 +1,31 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "../../components/navBar/NavBar";
 import ScreenContainer from "../../components/ScreenContainer";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
-import { Container, TimeContainer } from "./Style";
+import { Container, ConteudoHashtag, TimeContainer } from "./Style";
 import Publication from "../../components/TimeLineComponent/PublicationsTimeLine/Publications";
+import TrendingHashtags from "../../components/TimeLineComponent/TrendingTimeLine/Trending";
 
 export default function UserPage() {
 
-    const { auth } = useContext(AuthContext);
-    //const navigate = useNavigate();
     const { id } = useParams();
-    //const config = { headers: { Authorization: `Bearer ${auth.token}` } };
     const [userPosts, setUserPosts] = useState([]);
+    const [user, setUser] = useState("");
 
     useEffect(() => {
         getUserPosts();
-    });
+    }, []);
 
     async function getUserPosts() {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/${id}`);
+            const res = await axios.get(`https://linkrapi-bbrm.onrender.com/user/${id}`);
             setUserPosts(res.data);
+            console.log(res.data);
+            setUser(res.data[0].name);
 
         } catch (error) {
-            alert(error.response.data);
+            console.log(error.message);
         }
     };
 
@@ -33,14 +33,25 @@ export default function UserPage() {
         <ScreenContainer>
             <NavBar />
             <Container>
-                <h2>{auth.name}'s posts</h2>
-                <TimeContainer>
-                    {userPosts.map(p => <Publication
-                        key={p.id}
-                        user={p.userId}
-                        description={p.description}
-                        url={p.url} />)}
-                </TimeContainer>
+                <h2>{user}'s posts</h2>
+                <ConteudoHashtag>
+                    <TimeContainer>
+                        {userPosts.map(p => <Publication
+                            key={p.id}
+                            userId={p.userId}
+                            id={p.id}
+                            name={p.name}
+                            image={p.image}
+                            url={p.url}
+                            likes={p.likes}
+                            description={p.description}
+                            titlemeta={p.titlemeta}
+                            descriptionmeta={p.descriptionmeta}
+                            imagemeta={p.imagemeta} />
+                        )}
+                    </TimeContainer>
+                    <TrendingHashtags />
+                </ConteudoHashtag>
             </Container>
         </ScreenContainer>
     );

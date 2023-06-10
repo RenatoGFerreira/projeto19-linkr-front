@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REACT_APP_API_URL = "http://localhost:5000";
+const REACT_APP_API_URL = "https://linkrapi-bbrm.onrender.com";
 
 function createConfig(token) {
   return {

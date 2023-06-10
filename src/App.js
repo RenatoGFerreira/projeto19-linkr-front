@@ -17,6 +17,7 @@ function App() {
           <Route path="/timeline" element={<TimeLinePage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/hashtag" element={<HashtagPage />} />
+          <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
